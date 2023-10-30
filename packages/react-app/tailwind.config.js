@@ -8,27 +8,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        /** primary */
-        "prosperity": "#FCFF52",
-        "forest": "#476520",
-        /** base */
-        "gypsum": "#FCF6F1",
-        "sand": "#E7E3D4",
-        "wood": "#655947",
-        "fig": "#1E002B",
-        /** functional */
-        "snow": "#FFFFFF",
-        "onyx": "#000000",
-        "success": "#329F3B",
-        "error": "#E70532",
-        "disabled": "#9B9B9B",
-        /** accent */
-        "sky": "#7CC0FF",
-        "citrus": "#FF9A51",
-        "lotus": "#FFA3EB",
-        "lavender": "#B490FF"
-      }
+        yellow: "#FFD55A",
+        "base-50": "#4E4E4E ",
+        "base-100": "#222222",
+        light: "#F6F5F4",
+        gray: "#00000014",
+        gold: "#ffd55a",
+      },
     },
   },
   plugins: [],
-}
+};
