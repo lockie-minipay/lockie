@@ -8,7 +8,7 @@ import { publicProvider } from "wagmi/providers/public";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 
-const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string; // get one at https://cloud.walletconnect.com/app
+const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string;
 
 const { chains, publicClient } = configureChains(
   [Celo, Alfajores],
@@ -18,11 +18,11 @@ const { chains, publicClient } = configureChains(
 const connectors = celoGroups({
   chains,
   projectId,
-  appName: (typeof document === "object" && document.title) || "Your App Name",
+  appName: "Lockie - Your secured minipay vault",
 });
 
 const appInfo = {
-  appName: "Celo Composer",
+  appName: "Lockie - Your secured minipay vault",
 };
 
 const wagmiConfig = createConfig({
