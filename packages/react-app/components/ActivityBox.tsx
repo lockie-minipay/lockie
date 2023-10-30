@@ -10,7 +10,7 @@ const ActivityBox = () => {
         <div className="flex">6.45</div>
       </div>
 
-      <div className="flex gap-x-8 items-cente">
+      <div className="hidden lg:flex gap-x-8 items-cente">
         <SavingsCard />
 
         <RewardCard />

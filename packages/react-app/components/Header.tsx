@@ -4,7 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useConnect, useNetwork } from "wagmi";
+import { useAccount, useConnect, useNetwork } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import {
   useConnectModal,
@@ -22,6 +22,7 @@ export default function Header() {
   const { openAccountModal } = useAccountModal();
   const { openChainModal } = useChainModal();
   const { chain } = useNetwork();
+  const { address } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -81,6 +82,8 @@ export default function Header() {
             {chain?.name} <ChevronDown />
           </button>
         )}
+
+        <ConnectButton />
       </div>
     </nav>
   );
