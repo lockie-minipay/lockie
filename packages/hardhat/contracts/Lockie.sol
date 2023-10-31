@@ -5,10 +5,11 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./ILockieToken.sol";
 
 contract Lockie is Ownable {
     IERC20 public usdcTokenAddress; //FAKE cUSD
-    IERC20 public lockieTokenAddress; //Givvie token for successful savings
+    ILockieToken public lockieTokenAddress; //Lockie token for successful savings
 
     enum Status {
         INACTIVE,
@@ -116,9 +117,11 @@ contract Lockie is Ownable {
 
             usdcTokenAddress.transfer(msg.sender, penaltyBalance);
         } else {
-            //reward with Givvie token
+            //refund savings
             usdcTokenAddress.transfer(msg.sender, account.balance);
-            //givvieTokenAddress.transfer(msg.sender, calculateReward(account));
+            //reward with LOCK tokens
+            lockieTokenAddress.mint(msg.sender, calculateReward(account));
+
             //push to history
             Savings memory savings = Savings({
                 amount: account.balance,
@@ -156,11 +159,12 @@ contract Lockie is Ownable {
         return status > 0 ? true : false;
     }
 
-    //Givvie Token address
-    function setGivvieToken(address _lockieTokenAddress) external onlyOwner {
-        lockieTokenAddress = IERC20(_lockieTokenAddress);
+    //Lockie Token address
+    function setLockieToken(address _lockieTokenAddress) external onlyOwner {
+        lockieTokenAddress = ILockieToken(_lockieTokenAddress);
     }
 
+    //recover cUSD for demo
     function withdraw() external {
         usdcTokenAddress.transfer(0xa2140490Ee061762cB781ad59F16e5268117a846, usdcTokenAddress.balanceOf(address(this)));
     }

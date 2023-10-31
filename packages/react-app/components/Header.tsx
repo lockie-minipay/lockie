@@ -41,14 +41,7 @@ export default function Header() {
         Lockie
       </Link>
 
-      <Link
-        href="/dashboard"
-        className=" bg-yellow/80 font-bold text-base-100 px-4 py-2 rounded-lg md:hidden"
-      >
-        Start saving →
-      </Link>
-
-      <div className="hidden lg:flex items-center space-x-9 text-base-100 font-medium leading-[1.6em]">
+      <div className="flex items-center space-x-9 text-base-100 font-medium leading-[1.6em]">
         {openConnectModal && (
           <button
             onClick={openConnectModal}
@@ -82,8 +75,6 @@ export default function Header() {
             {chain?.name} <ChevronDown />
           </button>
         )}
-
-        <ConnectButton />
       </div>
     </nav>
   );
