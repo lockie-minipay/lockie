@@ -7,9 +7,9 @@ const useGetRecord = () => {
 
   const { data: record } = useContractRead({
     //@ts-ignore
-    address: connect?.[chain?.id]?.address,
+    address: connect?.lockie?.address,
     //@ts-ignore
-    abi: connect?.[chain?.id]?.abi,
+    abi: connect?.lockie?.abi,
     functionName: "getRecord",
     args: [address],
     watch: true,

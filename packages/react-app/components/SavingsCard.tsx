@@ -17,7 +17,6 @@ import Balance from "./icons/Balance";
 const SavingsCard = () => {
   const balance = useGetBalance("usdc");
   const record = useGetRecord();
-  const { chain } = useNetwork();
   const [isOpen, setIsOpen] = useState(false);
 
   const { days, hours, minutes, seconds, isCountdownCompleted } = useCountdown(
@@ -33,8 +32,6 @@ const SavingsCard = () => {
     functionName: "breakPiggy",
     enabled: false,
   });
-
-  balance && console.log(balance);
 
   const {
     write: breakPiggy,
@@ -72,8 +69,8 @@ const SavingsCard = () => {
             </h3>
             <p className="">
               {isCountdownCompleted
-                ? "Earn GIVV tokens when you break your piggy!"
-                : "You will be charged 5% penalty if you break before duration"}
+                ? "Earn $LOCK tokens when you break your piggy!"
+                : "You will be charged 0.1% penalty if you break before duration"}
             </p>
 
             <div className="flex gap-x-2 items-center justify-between mt-2">
@@ -152,7 +149,7 @@ const SavingsCard = () => {
           //@ts-ignore
           record?.status > 0 && (
             <>
-              <div className="font-mono text-xl text-center">
+              <div className="font-mono  lg:text-xl text-center">
                 {isCountdownCompleted ? (
                   <p>Savings goal achieved!</p>
                 ) : (

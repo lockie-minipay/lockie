@@ -1,11 +1,7 @@
-/* The connect configuration is designed to allow 
-Givvie support multiple chains by using their 
-chain Id to dynamically link the smart contracts */
-
 const connect = {
   //lockie contract
   lockie: {
-    address: "0xf0e6ed689202d980c59B516Faa54f4c403023097",
+    address: "0xED3B69917C6ccCFb6Ab8dC2135CD741339A25112",
     abi: [
       {
         inputs: [
@@ -126,6 +122,25 @@ const connect = {
             name: "_amount",
             type: "uint256",
           },
+        ],
+        name: "calculatePenalyFee",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "_amount",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "_duration",
@@ -160,7 +175,7 @@ const connect = {
                 type: "uint256",
               },
             ],
-            internalType: "struct Givvie.Savings[]",
+            internalType: "struct Lockie.Savings[]",
             name: "",
             type: "tuple[]",
           },
@@ -186,7 +201,7 @@ const connect = {
                 type: "uint256",
               },
               {
-                internalType: "enum Givvie.Status",
+                internalType: "enum Lockie.Status",
                 name: "status",
                 type: "uint8",
               },
@@ -201,22 +216,9 @@ const connect = {
                 type: "uint256",
               },
             ],
-            internalType: "struct Givvie.Account",
+            internalType: "struct Lockie.Account",
             name: "",
             type: "tuple",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "givvieTokenAddress",
-        outputs: [
-          {
-            internalType: "contract IERC20",
-            name: "",
-            type: "address",
           },
         ],
         stateMutability: "view",
@@ -236,6 +238,19 @@ const connect = {
             internalType: "bool",
             name: "",
             type: "bool",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "lockieTokenAddress",
+        outputs: [
+          {
+            internalType: "contract ILockieToken",
+            name: "",
+            type: "address",
           },
         ],
         stateMutability: "view",
@@ -265,11 +280,11 @@ const connect = {
         inputs: [
           {
             internalType: "address",
-            name: "_givvieTokenAddress",
+            name: "_lockieTokenAddress",
             type: "address",
           },
         ],
-        name: "setGivvieToken",
+        name: "setLockieToken",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
@@ -311,6 +326,13 @@ const connect = {
           },
         ],
         stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "withdraw",
+        outputs: [],
+        stateMutability: "nonpayable",
         type: "function",
       },
     ],
@@ -597,14 +619,14 @@ const connect = {
   },
 
   //lockie token contract
-  givv: {
-    address: "0xb4F4D59a4dA438bb2a61FEE40afefF76dAFCf566",
+  lock: {
+    address: "0x0e1d617a3B4F88d6A26ea85DDe8Aa0dfCfcBcDbe",
     abi: [
       {
         inputs: [
           {
             internalType: "address",
-            name: "_givvieHQ",
+            name: "_lockieHQ",
             type: "address",
           },
         ],
@@ -729,6 +751,37 @@ const connect = {
         type: "function",
       },
       {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+        ],
+        name: "burn",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "account",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+        ],
+        name: "burnFrom",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
         inputs: [],
         name: "decimals",
         outputs: [
@@ -786,6 +839,24 @@ const connect = {
             type: "bool",
           },
         ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "to",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+        ],
+        name: "mint",
+        outputs: [],
         stateMutability: "nonpayable",
         type: "function",
       },

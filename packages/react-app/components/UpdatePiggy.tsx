@@ -22,9 +22,9 @@ const UpdatePiggy = () => {
 
   const { config } = usePrepareContractWrite({
     //@ts-ignore
-    address: connect?.[chain?.id]?.usdc?.address,
+    address: connect?.lockie.cusd?.address,
     //@ts-ignore
-    abi: connect?.[chain?.id]?.usdc?.abi,
+    abi: connect?.lockie.cusd?.abi,
     functionName: "approve",
     args: [
       //@ts-ignore
@@ -51,9 +51,9 @@ const UpdatePiggy = () => {
   //-- Save -- //
   const { config: saveConfig, refetch } = usePrepareContractWrite({
     //@ts-ignore
-    address: connect?.[chain?.id].address,
+    address: connect?.lockie?.address,
     //@ts-ignore
-    abi: connect?.[chain?.id].abi,
+    abi: connect?.lockie?.abi,
     functionName: "updateBalance",
     args: [ethers.parseEther(debouncedAmount || "0")],
   });
