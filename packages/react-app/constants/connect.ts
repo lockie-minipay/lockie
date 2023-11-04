@@ -1,7 +1,7 @@
 const connect = {
   //lockie contract
   lockie: {
-    address: "0x9f42a85BF8c9407F8e1795be588a2Ee7E4BB84c4",
+    address: "0xfa844D9018969e309eDFFd31A618A95CeE7e43F4",
     abi: [
       {
         anonymous: false,
@@ -107,6 +107,88 @@ const connect = {
         name: "deposit",
         outputs: [],
         stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "getRate",
+        outputs: [
+          {
+            components: [
+              {
+                components: [
+                  {
+                    internalType: "uint256",
+                    name: "data",
+                    type: "uint256",
+                  },
+                ],
+                internalType: "struct DataTypes.ReserveConfigurationMap",
+                name: "configuration",
+                type: "tuple",
+              },
+              {
+                internalType: "uint128",
+                name: "liquidityIndex",
+                type: "uint128",
+              },
+              {
+                internalType: "uint128",
+                name: "variableBorrowIndex",
+                type: "uint128",
+              },
+              {
+                internalType: "uint128",
+                name: "currentLiquidityRate",
+                type: "uint128",
+              },
+              {
+                internalType: "uint128",
+                name: "currentVariableBorrowRate",
+                type: "uint128",
+              },
+              {
+                internalType: "uint128",
+                name: "currentStableBorrowRate",
+                type: "uint128",
+              },
+              {
+                internalType: "uint40",
+                name: "lastUpdateTimestamp",
+                type: "uint40",
+              },
+              {
+                internalType: "address",
+                name: "aTokenAddress",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "stableDebtTokenAddress",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "variableDebtTokenAddress",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "interestRateStrategyAddress",
+                type: "address",
+              },
+              {
+                internalType: "uint8",
+                name: "id",
+                type: "uint8",
+              },
+            ],
+            internalType: "struct DataTypes.ReserveData",
+            name: "",
+            type: "tuple",
+          },
+        ],
+        stateMutability: "view",
         type: "function",
       },
       {
@@ -427,9 +509,9 @@ const connect = {
     ],
   },
 
-  //lockie token contract
+  //mToken address
   lock: {
-    address: "0x0e1d617a3B4F88d6A26ea85DDe8Aa0dfCfcBcDbe",
+    address: "0xDCb84F51dd4BeA1ce4b6118F087B260a71BB656c",
     abi: [
       {
         inputs: [

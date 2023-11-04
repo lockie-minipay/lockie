@@ -69,6 +69,12 @@ contract Lockie is Ownable {
         return fee;
     }
 
+    //get rate for calculating APY
+    function getRate() external view returns (DataTypes.ReserveData memory){
+        DataTypes.ReserveData memory state = ILendingPool(moola).getReserveData(cusdAddress);
+        return  state;
+    }
+
     function getSavings(address _owner)
         external
         view
