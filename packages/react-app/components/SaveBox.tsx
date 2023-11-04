@@ -1,13 +1,11 @@
 import { useState } from "react";
-import HandleSavings from "../components/HandleSavings";
+import NewPiggy from "./NewPiggy";
 
 const SaveBox = () => {
-  const [selected, setSelected] = useState("deposit");
-
   return (
     <aside className="p-0 lg:w-[30%] lg:p-4 lg:pt-0">
       <div className="">
-        <HandleSavings />
+        <NewPiggy />
       </div>
     </aside>
   );

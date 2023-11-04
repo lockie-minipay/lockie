@@ -1,75 +1,8 @@
 const connect = {
   //lockie contract
   lockie: {
-    address: "0xED3B69917C6ccCFb6Ab8dC2135CD741339A25112",
+    address: "0x9f42a85BF8c9407F8e1795be588a2Ee7E4BB84c4",
     abi: [
-      {
-        inputs: [
-          {
-            internalType: "address",
-            name: "_usdcTokenAddress",
-            type: "address",
-          },
-        ],
-        stateMutability: "nonpayable",
-        type: "constructor",
-      },
-      {
-        anonymous: false,
-        inputs: [
-          {
-            indexed: true,
-            internalType: "address",
-            name: "owner",
-            type: "address",
-          },
-          {
-            indexed: false,
-            internalType: "uint256",
-            name: "saved",
-            type: "uint256",
-          },
-          {
-            indexed: false,
-            internalType: "uint256",
-            name: "expiredAt",
-            type: "uint256",
-          },
-        ],
-        name: "Broken",
-        type: "event",
-      },
-      {
-        anonymous: false,
-        inputs: [
-          {
-            indexed: true,
-            internalType: "address",
-            name: "owner",
-            type: "address",
-          },
-          {
-            indexed: false,
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
-          {
-            indexed: true,
-            internalType: "uint256",
-            name: "createdAt",
-            type: "uint256",
-          },
-          {
-            indexed: false,
-            internalType: "uint256",
-            name: "expiresAt",
-            type: "uint256",
-          },
-        ],
-        name: "Created",
-        type: "event",
-      },
       {
         anonymous: false,
         inputs: [
@@ -93,6 +26,43 @@ const connect = {
         anonymous: false,
         inputs: [
           {
+            indexed: true,
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "string",
+            name: "rate",
+            type: "string",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        name: "Saved",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
             indexed: false,
             internalType: "uint256",
             name: "amount",
@@ -101,37 +71,24 @@ const connect = {
           {
             indexed: false,
             internalType: "uint256",
-            name: "updatedAt",
+            name: "createdAt",
             type: "uint256",
           },
         ],
-        name: "Updated",
+        name: "Withdrawn",
         type: "event",
       },
       {
         inputs: [],
-        name: "breakPiggy",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [
-          {
-            internalType: "uint256",
-            name: "_amount",
-            type: "uint256",
-          },
-        ],
-        name: "calculatePenalyFee",
+        name: "cusdAddress",
         outputs: [
           {
-            internalType: "uint256",
+            internalType: "address",
             name: "",
-            type: "uint256",
+            type: "address",
           },
         ],
-        stateMutability: "pure",
+        stateMutability: "view",
         type: "function",
       },
       {
@@ -142,12 +99,12 @@ const connect = {
             type: "uint256",
           },
           {
-            internalType: "uint256",
-            name: "_duration",
-            type: "uint256",
+            internalType: "string",
+            name: "_rate",
+            type: "string",
           },
         ],
-        name: "createPiggy",
+        name: "deposit",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
@@ -160,22 +117,32 @@ const connect = {
             type: "address",
           },
         ],
-        name: "getHistory",
+        name: "getSavings",
         outputs: [
           {
             components: [
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
               {
                 internalType: "uint256",
                 name: "amount",
                 type: "uint256",
               },
               {
+                internalType: "string",
+                name: "rate",
+                type: "string",
+              },
+              {
                 internalType: "uint256",
-                name: "duration",
+                name: "createdAt",
                 type: "uint256",
               },
             ],
-            internalType: "struct Lockie.Savings[]",
+            internalType: "struct Lockie.Save[]",
             name: "",
             type: "tuple[]",
           },
@@ -184,60 +151,13 @@ const connect = {
         type: "function",
       },
       {
-        inputs: [
-          {
-            internalType: "address",
-            name: "_owner",
-            type: "address",
-          },
-        ],
-        name: "getRecord",
+        inputs: [],
+        name: "mcusdAddress",
         outputs: [
           {
-            components: [
-              {
-                internalType: "uint256",
-                name: "balance",
-                type: "uint256",
-              },
-              {
-                internalType: "enum Lockie.Status",
-                name: "status",
-                type: "uint8",
-              },
-              {
-                internalType: "uint256",
-                name: "createdAt",
-                type: "uint256",
-              },
-              {
-                internalType: "uint256",
-                name: "expiresAt",
-                type: "uint256",
-              },
-            ],
-            internalType: "struct Lockie.Account",
+            internalType: "contract IERC20",
             name: "",
-            type: "tuple",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [
-          {
-            internalType: "address",
-            name: "_owner",
             type: "address",
-          },
-        ],
-        name: "isActive",
-        outputs: [
-          {
-            internalType: "bool",
-            name: "",
-            type: "bool",
           },
         ],
         stateMutability: "view",
@@ -245,10 +165,10 @@ const connect = {
       },
       {
         inputs: [],
-        name: "lockieTokenAddress",
+        name: "moola",
         outputs: [
           {
-            internalType: "contract ILockieToken",
+            internalType: "address",
             name: "",
             type: "address",
           },
@@ -280,13 +200,39 @@ const connect = {
         inputs: [
           {
             internalType: "address",
-            name: "_lockieTokenAddress",
+            name: "",
             type: "address",
           },
+          {
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
         ],
-        name: "setLockieToken",
-        outputs: [],
-        stateMutability: "nonpayable",
+        name: "savings",
+        outputs: [
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "rate",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "view",
         type: "function",
       },
       {
@@ -303,32 +249,6 @@ const connect = {
         type: "function",
       },
       {
-        inputs: [
-          {
-            internalType: "uint256",
-            name: "_amount",
-            type: "uint256",
-          },
-        ],
-        name: "updateBalance",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "usdcTokenAddress",
-        outputs: [
-          {
-            internalType: "contract IERC20",
-            name: "",
-            type: "address",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
         inputs: [],
         name: "withdraw",
         outputs: [],
@@ -340,26 +260,17 @@ const connect = {
 
   //cUSD
   cusd: {
-    address: "0x765DE816845861e75A25fCA122bb6898B8B1282a",
+    address: "0x65E2fe35C30eC218b46266F89847c63c2eDa7Dc7",
     abi: [
       {
         inputs: [
           { internalType: "string", name: "name", type: "string" },
           { internalType: "string", name: "symbol", type: "string" },
           { internalType: "uint8", name: "decimals", type: "uint8" },
-          { internalType: "uint256", name: "capacity", type: "uint256" },
         ],
         stateMutability: "nonpayable",
         type: "constructor",
       },
-      { inputs: [], name: "CapExceeded", type: "error" },
-      { inputs: [], name: "InvalidAccount", type: "error" },
-      { inputs: [], name: "InvalidOwner", type: "error" },
-      { inputs: [], name: "InvalidS", type: "error" },
-      { inputs: [], name: "InvalidSignature", type: "error" },
-      { inputs: [], name: "InvalidV", type: "error" },
-      { inputs: [], name: "NotOwner", type: "error" },
-      { inputs: [], name: "PermitExpired", type: "error" },
       {
         anonymous: false,
         inputs: [
@@ -391,25 +302,6 @@ const connect = {
           {
             indexed: true,
             internalType: "address",
-            name: "previousOwner",
-            type: "address",
-          },
-          {
-            indexed: true,
-            internalType: "address",
-            name: "newOwner",
-            type: "address",
-          },
-        ],
-        name: "OwnershipTransferred",
-        type: "event",
-      },
-      {
-        anonymous: false,
-        inputs: [
-          {
-            indexed: true,
-            internalType: "address",
             name: "from",
             type: "address",
           },
@@ -430,16 +322,9 @@ const connect = {
         type: "event",
       },
       {
-        inputs: [],
-        name: "DOMAIN_SEPARATOR",
-        outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
         inputs: [
-          { internalType: "address", name: "", type: "address" },
-          { internalType: "address", name: "", type: "address" },
+          { internalType: "address", name: "owner", type: "address" },
+          { internalType: "address", name: "spender", type: "address" },
         ],
         name: "allowance",
         outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -457,32 +342,8 @@ const connect = {
         type: "function",
       },
       {
-        inputs: [{ internalType: "address", name: "", type: "address" }],
+        inputs: [{ internalType: "address", name: "account", type: "address" }],
         name: "balanceOf",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [{ internalType: "bytes32", name: "salt", type: "bytes32" }],
-        name: "burn",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "address", name: "account", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" },
-        ],
-        name: "burnFrom",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "cap",
         outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
@@ -497,22 +358,11 @@ const connect = {
       {
         inputs: [
           { internalType: "address", name: "spender", type: "address" },
-          {
-            internalType: "uint256",
-            name: "subtractedValue",
-            type: "uint256",
-          },
+          { internalType: "uint256", name: "subtractedValue", type: "uint256" },
         ],
         name: "decreaseAllowance",
         outputs: [{ internalType: "bool", name: "", type: "bool" }],
         stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [{ internalType: "bytes32", name: "salt", type: "bytes32" }],
-        name: "depositAddress",
-        outputs: [{ internalType: "address", name: "", type: "address" }],
-        stateMutability: "view",
         type: "function",
       },
       {
@@ -526,12 +376,9 @@ const connect = {
         type: "function",
       },
       {
-        inputs: [
-          { internalType: "address", name: "account", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" },
-        ],
+        inputs: [{ internalType: "uint256", name: "value", type: "uint256" }],
         name: "mint",
-        outputs: [],
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
         stateMutability: "nonpayable",
         type: "function",
       },
@@ -540,35 +387,6 @@ const connect = {
         name: "name",
         outputs: [{ internalType: "string", name: "", type: "string" }],
         stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [{ internalType: "address", name: "", type: "address" }],
-        name: "nonces",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "owner",
-        outputs: [{ internalType: "address", name: "", type: "address" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "address", name: "issuer", type: "address" },
-          { internalType: "address", name: "spender", type: "address" },
-          { internalType: "uint256", name: "value", type: "uint256" },
-          { internalType: "uint256", name: "deadline", type: "uint256" },
-          { internalType: "uint8", name: "v", type: "uint8" },
-          { internalType: "bytes32", name: "r", type: "bytes32" },
-          { internalType: "bytes32", name: "s", type: "bytes32" },
-        ],
-        name: "permit",
-        outputs: [],
-        stateMutability: "nonpayable",
         type: "function",
       },
       {
@@ -603,15 +421,6 @@ const connect = {
         ],
         name: "transferFrom",
         outputs: [{ internalType: "bool", name: "", type: "bool" }],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "address", name: "newOwner", type: "address" },
-        ],
-        name: "transferOwnership",
-        outputs: [],
         stateMutability: "nonpayable",
         type: "function",
       },

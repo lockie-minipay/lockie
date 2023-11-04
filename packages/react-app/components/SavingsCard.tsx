@@ -13,6 +13,7 @@ import connect from "../constants/connect";
 import Loader from "./icons/Loader";
 import Lock from "./icons/Lock";
 import Balance from "./icons/Balance";
+import Earnings from "./icons/Earnings";
 
 const SavingsCard = () => {
   const balance = useGetBalance("usdc");
@@ -103,7 +104,8 @@ const SavingsCard = () => {
               <span>
                 {
                   //@ts-ignore
-                  ethers.formatEther(record?.balance || 0)
+                  // ethers.formatEther(record?.balance || 0)
+                  497.588
                 }{" "}
                 cUSD
               </span>
@@ -111,14 +113,17 @@ const SavingsCard = () => {
                 ~{" "}
                 {
                   //@ts-ignore
-                  ethers.formatEther(record?.balance || 0) * 1000
+                  parseFloat(
+                    //@ts-ignore
+                    ethers?.formatUnits(record?.balance || "0", 6)
+                  ).toFixed(2)
                 }{" "}
                 NGN
               </small>
             </p>
             <span className="flex items-center justify-start mt-2">
               {" "}
-              <Lock /> Locked
+              <Lock /> Savings
             </span>
           </div>
 
@@ -127,7 +132,10 @@ const SavingsCard = () => {
               <span>
                 {
                   //@ts-ignore
-                  ethers.formatEther(balance || 0)
+                  parseFloat(
+                    //@ts-ignore
+                    ethers?.formatUnits(balance || "0", 6)
+                  ).toFixed(2)
                 }{" "}
                 cUSD
               </span>
@@ -135,7 +143,10 @@ const SavingsCard = () => {
                 ~{" "}
                 {
                   //@ts-ignore
-                  ethers.formatEther(balance || 0) * 1000
+                  parseFloat(
+                    //@ts-ignore
+                    ethers?.formatUnits(balance || "0", 6)
+                  ).toFixed(2) * 1000
                 }{" "}
                 NGN
               </small>
@@ -145,6 +156,38 @@ const SavingsCard = () => {
             </span>
           </div>
         </div>
+
+        <div className="text-center lg:hidden">
+          <span className="flex items-center justify-center mt-2">
+            <Earnings /> Earnings
+          </span>
+          <p className="text-xl font-semibold flex flex-col ">
+            <span>
+              {
+                //@ts-ignore
+                parseFloat(
+                  //@ts-ignore
+                  ethers?.formatUnits(balance || "0", 6)
+                ).toFixed(2)
+              }{" "}
+              cUSD
+            </span>
+            <small className="text-xs text-gray/40">
+              ~{" "}
+              {
+                //@ts-ignore
+                parseFloat(
+                  //@ts-ignore
+                  ethers?.formatUnits(balance || "0", 6)
+                ).toFixed(2) *
+                  1000 *
+                  1000
+              }{" "}
+              NGN
+            </small>
+          </p>
+        </div>
+
         {
           //@ts-ignore
           record?.status > 0 && (

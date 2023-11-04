@@ -1,9 +1,11 @@
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import celoGroups from "@celo/rainbowkit-celo/lists";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { goerli } from "wagmi/chains";
+import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
@@ -12,11 +14,18 @@ import { useEffect, useState } from "react";
 const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string;
 
 const { chains, publicClient } = configureChains(
-  [Celo, Alfajores],
-  [publicProvider()]
+  [Celo, Alfajores, goerli],
+  [
+    // jsonRpcProvider({
+    //   rpc: (chain) => ({
+    //     http: `https://celo-rpc.satoshi.opera-api.com/`,
+    //   }),
+    // }),
+    publicProvider(),
+  ]
 );
 
-const connectors = celoGroups({
+const { connectors } = getDefaultWallets({
   chains,
   projectId,
   appName: "Lockie - Your secured minipay vault",
@@ -26,10 +35,16 @@ const appInfo = {
   appName: "Lockie - Your secured minipay vault",
 };
 
+// const wagmiConfig = celoGroups({
+//   connectors,
+//   publicClient: publicClient,
+//   autoConnect: false,
+// });
+
 const wagmiConfig = createConfig({
   connectors,
-  publicClient: publicClient,
-  autoConnect: false,
+  autoConnect: true,
+  publicClient,
 });
 
 function App({ Component, pageProps }: AppProps) {
@@ -43,7 +58,12 @@ function App({ Component, pageProps }: AppProps) {
     <>
       {isLoaded && (
         <WagmiConfig config={wagmiConfig}>
-          <RainbowKitProvider chains={chains} appInfo={appInfo} coolMode={true}>
+          <RainbowKitProvider
+            chains={chains}
+            appInfo={appInfo}
+            coolMode={true}
+            modalSize="compact"
+          >
             <Layout>
               <Component {...pageProps} />
             </Layout>

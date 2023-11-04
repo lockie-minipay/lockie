@@ -1,171 +1,85 @@
 // SPDX-License-Identifier: MIT
-// Author @nnamdipremium
+pragma solidity 0.6.12;
+pragma experimental ABIEncoderV2;
 
-pragma solidity ^0.8.9;
-
-import "@openzeppelin/contracts/interfaces/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "./ILockieToken.sol";
+import "contracts/IERC20.sol";
+import "@openzeppelin/contracts@3.1.0/access/Ownable.sol";
+import "./ILendingPool.sol";
 
 contract Lockie is Ownable {
-    IERC20 public usdcTokenAddress; //FAKE cUSD
-    ILockieToken public lockieTokenAddress; //Lockie token for successful savings
+    address public cusdAddress = 0x65E2fe35C30eC218b46266F89847c63c2eDa7Dc7; //cUSD
+    address public moola = 0x4bd5643ac6f66a5237E18bfA7d47cF22f1c9F210; //moola lending pool
+    IERC20 public mcusdAddress; //interest token
 
-    enum Status {
-        INACTIVE,
-        ACTIVE
-    }
-
-    //Lockie safe
-    struct Account {
-        uint256 balance;
-        Status status;
-        uint256 createdAt;
-        uint256 expiresAt;
-    }
-
-    //a lock instance
-    struct Savings {
+    struct Save {
+        address owner;
         uint256 amount;
-        uint256 duration;
+        string rate;
+        uint256 createdAt;
     }
-
-    //users active savings
-    mapping(address => Account) records;
 
     //tracks all user's succesful savings
-    mapping(address => Savings[]) history;
+    mapping(address => Save[]) public savings;
 
-    event Created(
+    event Saved(
         address indexed owner,
         uint256 amount,
-        uint256 indexed createdAt,
-        uint256 expiresAt
+        string indexed rate,
+        uint256 indexed createdAt
     );
 
-    event Updated(uint256 amount, uint256 updatedAt);
+    event Withdrawn(address indexed owner, uint256 amount, uint256 createdAt);
 
-    //breaks piggie
-    event Broken(address indexed owner, uint256 saved, uint256 expiredAt);
+    function deposit(uint256 _amount, string calldata _rate) external {
+        require(_amount > 0, "Invalid values");
+        
+        //calculate charge
+        uint256 balanceAfterCharge = _amount -
+                deductCharge(_amount);
 
-    constructor(address _usdcTokenAddress) {
-        usdcTokenAddress = IERC20(_usdcTokenAddress);
-    }
+        //get the fund
+        IERC20(cusdAddress).transferFrom(msg.sender, address(this), _amount);
 
-    function createPiggy(uint256 _amount, uint256 _duration) external {
-        require(_amount > 0 && _duration > 0, "Invalid values");
+        //approve Moola 
+        IERC20(cusdAddress).approve(moola, balanceAfterCharge);
 
-        //transfer USDC to contract
-        usdcTokenAddress.transferFrom(msg.sender, address(this), _amount);
-
-        //uint256 expiresAt = block.timestamp + (_duration * 86400); //convert to days
-
-        uint256 expiresAt = block.timestamp + _duration;
-
-        //set an active record
-        records[msg.sender] = Account({
-            balance: _amount,
-            status: Status.ACTIVE,
-            createdAt: block.timestamp,
-            expiresAt: expiresAt
-        });
-
-        emit Created(msg.sender, _amount, expiresAt, block.timestamp);
-    }
-
-    function updateBalance(uint256 _amount) external {
-        require(
-            records[msg.sender].status == Status.ACTIVE,
-            "Piggy is not ACTIVE"
+        //lend balance on Moola onbehalf of the user
+        ILendingPool(moola).deposit(
+            cusdAddress,
+            balanceAfterCharge,
+            msg.sender,
+            0
         );
-        require(_amount > 0, "Invalid amount");
 
-        //transfer USDC to contract
-        usdcTokenAddress.transferFrom(msg.sender, address(this), _amount);
-        //update record
-        records[msg.sender].balance += _amount;
+        //save rates
+        savings[msg.sender].push(Save({
+            owner: msg.sender,
+            amount: balanceAfterCharge,
+            rate: _rate,
+            createdAt: block.timestamp
+        }));
 
-        emit Updated(_amount, block.timestamp);
+        emit  Saved(msg.sender, balanceAfterCharge, _rate, block.timestamp);
+        
+    }
+    
+    function deductCharge(uint256 _amount) internal pure returns (uint256) {
+        uint256 fee = _amount / 100; // 1%
+
+        return fee;
     }
 
-    //The higher the price and duration, the higher the reward token (Gamification)
-    function calculateReward(Account memory account)
-        internal
-        pure
-        returns (uint256)
-    {
-        return
-            (account.balance * (account.expiresAt - account.createdAt)) / 1000;
-    }
-
-    function calculatePenalyFee(uint _amount) public pure returns (uint) {
-
-    uint fee = _amount * 1 / 1000; // 0.1%
-
-    return fee;
-  }
-
-    function breakPiggy() external {
-        Account memory account = records[msg.sender];
-
-        require(account.status == Status.ACTIVE, "No record");
-
-        //penalize if broken before duration
-        if (block.timestamp < (account.expiresAt)) {
-            uint256 penaltyBalance = account.balance -
-                calculatePenalyFee(account.balance);
-
-            usdcTokenAddress.transfer(msg.sender, penaltyBalance);
-        } else {
-            //refund savings
-            usdcTokenAddress.transfer(msg.sender, account.balance);
-            //reward with LOCK tokens
-            lockieTokenAddress.mint(msg.sender, calculateReward(account));
-
-            //push to history
-            Savings memory savings = Savings({
-                amount: account.balance,
-                duration: account.expiresAt - account.createdAt
-            });
-
-            history[msg.sender].push(savings);
-        }
-
-        //reset record
-        account.balance = 0;
-        account.createdAt = 0;
-        account.expiresAt = 0;
-        account.status = Status.INACTIVE;
-
-        records[msg.sender] = account;
-        emit Broken(msg.sender, account.balance, block.timestamp);
-    }
-
-    function getHistory(address _owner)
+    function getSavings(address _owner)
         external
         view
-        returns (Savings[] memory)
+        returns (Save[] memory)
     {
-        return history[_owner];
+        return savings[_owner];
     }
 
-    function getRecord(address _owner) external view returns (Account memory) {
-        return records[_owner];
+    //recover service charge
+    function withdraw() external onlyOwner {
+        IERC20(cusdAddress).transfer(owner(), IERC20(cusdAddress).balanceOf(address(this)));
     }
 
-    //checks if a user has an active Piggy
-    function isActive(address _owner) external view returns (bool) {
-        uint256 status = uint256(records[_owner].status);
-        return status > 0 ? true : false;
-    }
-
-    //Lockie Token address
-    function setLockieToken(address _lockieTokenAddress) external onlyOwner {
-        lockieTokenAddress = ILockieToken(_lockieTokenAddress);
-    }
-
-    //recover cUSD for demo
-    function withdraw() external {
-        usdcTokenAddress.transfer(0xa2140490Ee061762cB781ad59F16e5268117a846, usdcTokenAddress.balanceOf(address(this)));
-    }
 }
