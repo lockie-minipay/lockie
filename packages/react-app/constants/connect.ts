@@ -1,7 +1,7 @@
 const connect = {
   //lockie contract
   lockie: {
-    address: "0xfa844D9018969e309eDFFd31A618A95CeE7e43F4",
+    address: "0x91A24342bdbf7227519aA27471ef5cc992f6D66f",
     abi: [
       {
         anonymous: false,
@@ -77,6 +77,25 @@ const connect = {
         ],
         name: "Withdrawn",
         type: "event",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "",
+            type: "address",
+          },
+        ],
+        name: "balances",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
       },
       {
         inputs: [],
@@ -233,11 +252,30 @@ const connect = {
         type: "function",
       },
       {
+        inputs: [
+          {
+            internalType: "address",
+            name: "_user",
+            type: "address",
+          },
+        ],
+        name: "getSavingsBal",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "bal",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
         inputs: [],
         name: "mcusdAddress",
         outputs: [
           {
-            internalType: "contract IERC20",
+            internalType: "address",
             name: "",
             type: "address",
           },
@@ -331,8 +369,21 @@ const connect = {
         type: "function",
       },
       {
-        inputs: [],
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "_amount",
+            type: "uint256",
+          },
+        ],
         name: "withdraw",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "withdrawCharges",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
@@ -342,7 +393,7 @@ const connect = {
 
   //cUSD
   cusd: {
-    address: "0x65E2fe35C30eC218b46266F89847c63c2eDa7Dc7",
+    address: "0x8d9EAc6f25470EFfD68f0AD22993CB2813c0c9B9",
     abi: [
       {
         inputs: [
@@ -510,8 +561,8 @@ const connect = {
   },
 
   //mToken address
-  lock: {
-    address: "0xDCb84F51dd4BeA1ce4b6118F087B260a71BB656c",
+  mToken: {
+    address: "0x71d4C18Ce2bd9889E17099B1552D0b92FAe15731",
     abi: [
       {
         inputs: [

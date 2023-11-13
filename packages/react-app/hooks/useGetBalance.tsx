@@ -2,7 +2,7 @@ import { useAccount, useContractRead } from "wagmi";
 
 import connect from "../constants/connect";
 
-const useGetBalance = (currency: string) => {
+const useGetBalance = () => {
   const { address } = useAccount();
 
   const { data: balance } = useContractRead({

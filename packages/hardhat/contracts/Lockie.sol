@@ -7,9 +7,9 @@ import "@openzeppelin/contracts@3.1.0/access/Ownable.sol";
 import "./ILendingPool.sol";
 
 contract Lockie is Ownable {
-    address public cusdAddress = 0x65E2fe35C30eC218b46266F89847c63c2eDa7Dc7; //cUSD
     address public moola = 0x4bd5643ac6f66a5237E18bfA7d47cF22f1c9F210; //moola lending pool
-    IERC20 public mcusdAddress; //interest token
+    address public cusdAddress = 0x8d9EAc6f25470EFfD68f0AD22993CB2813c0c9B9; //cUSD
+    address public mcusdAddress = 0x71d4C18Ce2bd9889E17099B1552D0b92FAe15731; //interest token
 
     struct Save {
         address owner;
@@ -20,6 +20,9 @@ contract Lockie is Ownable {
 
     //tracks all user's succesful savings
     mapping(address => Save[]) public savings;
+
+    //tracks all users account balance
+    mapping(address => uint) public balances;
 
     event Saved(
         address indexed owner,
@@ -51,13 +54,16 @@ contract Lockie is Ownable {
             0
         );
 
-        //save rates
+        //save details
         savings[msg.sender].push(Save({
             owner: msg.sender,
             amount: balanceAfterCharge,
             rate: _rate,
             createdAt: block.timestamp
         }));
+
+        //update balance record
+        balances[msg.sender] += balanceAfterCharge;
 
         emit  Saved(msg.sender, balanceAfterCharge, _rate, block.timestamp);
         
@@ -75,6 +81,27 @@ contract Lockie is Ownable {
         return  state;
     }
 
+    function getSavingsBal(address _user) external view returns (uint256 bal) {
+        return balances[_user];
+    }
+
+    function withdraw (uint256 _amount) external{
+        uint interestBal = IERC20(mcusdAddress).balanceOf(msg.sender);
+
+        require(_amount <= interestBal, "Insufficient balance");
+
+        //withdraw saver's earnings
+        ILendingPool(moola).withdraw(
+            cusdAddress,
+            _amount,
+            msg.sender
+        );
+
+        balances[msg.sender] -= _amount;
+
+        emit Withdrawn(msg.sender, _amount, block.timestamp);
+    }
+
     function getSavings(address _owner)
         external
         view
@@ -84,7 +111,7 @@ contract Lockie is Ownable {
     }
 
     //recover service charge
-    function withdraw() external onlyOwner {
+    function withdrawCharges () external onlyOwner {
         IERC20(cusdAddress).transfer(owner(), IERC20(cusdAddress).balanceOf(address(this)));
     }
 

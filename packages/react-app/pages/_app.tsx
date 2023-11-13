@@ -28,11 +28,11 @@ const { chains, publicClient } = configureChains(
 const { connectors } = getDefaultWallets({
   chains,
   projectId,
-  appName: "Lockie - Your secured minipay vault",
+  appName: "Lockie - One-click access to defi",
 });
 
 const appInfo = {
-  appName: "Lockie - Your secured minipay vault",
+  appName: "Lockie - One-click access to defi",
 };
 
 // const wagmiConfig = celoGroups({

@@ -1,14 +1,8 @@
 import { ethers } from "ethers";
 import useGetBalance from "../hooks/useGetBalance";
-import useGetRecord from "../hooks/useGetRecord";
 import { useCountdown } from "../hooks/useCountdown";
 import { useState } from "react";
-import {
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-  useNetwork,
-} from "wagmi";
+import { useContractRead, useAccount } from "wagmi";
 import connect from "../constants/connect";
 import Loader from "./icons/Loader";
 import Lock from "./icons/Lock";
@@ -16,87 +10,36 @@ import Balance from "./icons/Balance";
 import Earnings from "./icons/Earnings";
 
 const SavingsCard = () => {
-  const balance = useGetBalance("usdc");
-  const record = useGetRecord();
+  const balance = useGetBalance();
   const [isOpen, setIsOpen] = useState(false);
+  const { address } = useAccount();
 
-  const { days, hours, minutes, seconds, isCountdownCompleted } = useCountdown(
-    //@ts-ignore
-    parseInt(record?.expiresAt)
-  );
-
-  const { config, refetch } = usePrepareContractWrite({
+  const {
+    data: ethBal,
+    isLoading,
+    error,
+  } = useContractRead({
     //@ts-ignore
     address: connect?.lockie?.address,
     //@ts-ignore
     abi: connect?.lockie?.abi,
-    functionName: "breakPiggy",
-    enabled: false,
+    functionName: "getSavingsBal",
+    watch: true,
+    args: [address],
   });
 
-  const {
-    write: breakPiggy,
-    data,
-    isLoading: isBreaking,
-  } = useContractWrite(config);
-
-  const { isLoading: isWaitingTx } = useWaitForTransaction({
-    hash: data?.hash,
-    onSuccess(tx) {
-      //disable modal
-      setIsOpen(false);
-    },
+  const { data: mcusdBal } = useContractRead({
+    //@ts-ignore
+    address: connect?.mToken?.address,
+    //@ts-ignore
+    abi: connect?.mToken?.abi,
+    functionName: "balanceOf",
+    watch: true,
+    args: [address],
   });
-
-  const handleBreak = async () => {
-    await refetch();
-    breakPiggy?.();
-  };
 
   return (
-    <div className="relative bg-gray/5 rounded-lg p-8 w-full overflow-hidden">
-      {
-        //@ts-ignore
-        record?.status > 0 && (
-          <div
-            className={`${
-              isOpen ? "flex" : "hidden"
-            } absolute text-center top-0 right-0 w-full h-full bg-base-100 text-white p-4  flex-col justify-between`}
-          >
-            <h3 className="font-semibold text-xl">
-              {isCountdownCompleted
-                ? "Great Job Saving! 🌦️"
-                : "You can do better! 🎳"}
-            </h3>
-            <p className="">
-              {isCountdownCompleted
-                ? "Earn $LOCK tokens when you break your piggy!"
-                : "You will be charged 0.1% penalty if you break before duration"}
-            </p>
-
-            <div className="flex gap-x-2 items-center justify-between mt-2">
-              <button
-                onClick={() => handleBreak()}
-                className="bg-yellow text-black px-3.5 py-2.5 rounded-sm w-full inline-flex justify-center items-center"
-              >
-                {isBreaking ? (
-                  <Loader alt />
-                ) : isWaitingTx ? (
-                  <Loader alt />
-                ) : (
-                  "proceed"
-                )}
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="border-white  text-white px-3.5 py-2.5rounded-sm w-full inline-flex justify-center items-center"
-              >
-                cancel
-              </button>
-            </div>
-          </div>
-        )
-      }
+    <div className="relative bg-gray/5 rounded-lg py-8 px-3 lg:px-8 w-full overflow-hidden shadow-md">
       <div className="flex flex-col gap-y-5">
         <div className="flex items-center justify-between">
           <div className="text-left">
@@ -104,8 +47,7 @@ const SavingsCard = () => {
               <span>
                 {
                   //@ts-ignore
-                  // ethers.formatEther(record?.balance || 0)
-                  497.588
+                  ethers.formatEther(ethBal || 0)
                 }{" "}
                 cUSD
               </span>
@@ -115,8 +57,8 @@ const SavingsCard = () => {
                   //@ts-ignore
                   parseFloat(
                     //@ts-ignore
-                    ethers?.formatUnits(record?.balance || "0", 6)
-                  ).toFixed(2)
+                    ethers?.formatUnits(ethBal || "0", 18)
+                  ).toFixed(2) * 1000
                 }{" "}
                 NGN
               </small>
@@ -134,7 +76,7 @@ const SavingsCard = () => {
                   //@ts-ignore
                   parseFloat(
                     //@ts-ignore
-                    ethers?.formatUnits(balance || "0", 6)
+                    ethers?.formatUnits(balance || "0", 18)
                   ).toFixed(2)
                 }{" "}
                 cUSD
@@ -145,7 +87,7 @@ const SavingsCard = () => {
                   //@ts-ignore
                   parseFloat(
                     //@ts-ignore
-                    ethers?.formatUnits(balance || "0", 6)
+                    ethers?.formatUnits(balance || "0", 18)
                   ).toFixed(2) * 1000
                 }{" "}
                 NGN
@@ -157,17 +99,30 @@ const SavingsCard = () => {
           </div>
         </div>
 
+        <div className="line w-[60%] mx-auto h-[1px] lg:hidden" />
+
         <div className="text-center lg:hidden">
           <span className="flex items-center justify-center mt-2">
             <Earnings /> Earnings
           </span>
           <p className="text-xl font-semibold flex flex-col ">
+            <span className="text-gray text-xs">
+              {
+                //@ts-ignore
+                parseFloat(
+                  //@ts-ignore
+                  ethers?.formatUnits(mcusdBal || "0", 6)
+                ).toFixed(2)
+              }{" "}
+              cUSD
+            </span>
+
             <span>
               {
                 //@ts-ignore
                 parseFloat(
                   //@ts-ignore
-                  ethers?.formatUnits(balance || "0", 6)
+                  ethers?.formatUnits(mcusdBal || "0", 18)
                 ).toFixed(2)
               }{" "}
               cUSD
@@ -178,46 +133,13 @@ const SavingsCard = () => {
                 //@ts-ignore
                 parseFloat(
                   //@ts-ignore
-                  ethers?.formatUnits(balance || "0", 6)
-                ).toFixed(2) *
-                  1000 *
-                  1000
+                  ethers?.formatUnits(mcusdBal || "0", 18)
+                ).toFixed(2) * 1000
               }{" "}
               NGN
             </small>
           </p>
         </div>
-
-        {
-          //@ts-ignore
-          record?.status > 0 && (
-            <>
-              <div className="font-mono  lg:text-xl text-center">
-                {isCountdownCompleted ? (
-                  <p>Savings goal achieved!</p>
-                ) : (
-                  <>
-                    <p className="text-xs">Locked until</p>
-                    <p>
-                      {days}:{hours}:{minutes}:{seconds}
-                    </p>
-                  </>
-                )}
-              </div>
-
-              <button
-                onClick={() => setIsOpen(true)}
-                className={`${
-                  isCountdownCompleted
-                    ? "bg-green-700 hover:bg-green-700/90 active:bg-green-700"
-                    : "bg-red-400 hover:bg-red-500"
-                }  text-white inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7`}
-              >
-                Break Piggy
-              </button>
-            </>
-          )
-        }
       </div>
     </div>
   );

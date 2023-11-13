@@ -1,17 +1,19 @@
 import { ethers } from "ethers";
 
 function splitData(data: any) {
-  const x = [];
-  const y = [];
+  const amounts = [];
+  const dates = [];
+  const rates = [];
 
   if (data !== undefined) {
     for (let i = 0; i < data.length; i++) {
-      x.push(ethers.formatEther(data[i].amount || 0));
-      y.push(parseInt(data[i].duration));
+      amounts.push(ethers.formatEther(data[i].amount || 0));
+      dates.push(parseInt(data[i].createdAt));
+      rates.push(parseInt(data[i].rate));
     }
   }
 
-  return [x, y];
+  return [amounts, dates, rates];
 }
 
 export default splitData;

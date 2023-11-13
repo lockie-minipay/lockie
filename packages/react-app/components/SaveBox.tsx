@@ -14,15 +14,10 @@ import APR from "./APR";
 
 const SaveBox = () => {
   const [amount, setAmount] = useState("");
-  const [duration, setDuration] = useState("");
   const [isApproved, setIsApproved] = useState(false);
-  const [tx, setTx] = useState("");
-
-  //to check amount input
-  const balance = useGetBalance("usdc");
+  const [rate, setRate] = useState(0);
 
   const debouncedAmount = useDebounce<string>(amount, 500);
-  const debouncedDuration = useDebounce<string>(duration, 500);
 
   const { config } = usePrepareContractWrite({
     //@ts-ignore
@@ -33,7 +28,7 @@ const SaveBox = () => {
     args: [
       //@ts-ignore
       connect?.lockie?.address,
-      ethers?.parseUnits(debouncedAmount || "0", 6),
+      ethers?.parseUnits(debouncedAmount || "0", 18),
     ],
   });
 
@@ -48,7 +43,6 @@ const SaveBox = () => {
     onSuccess(tx) {
       //enable save button
       //@ts-ignore
-      setTx(tx);
       setIsApproved(true);
       refetch?.();
     },
@@ -61,7 +55,7 @@ const SaveBox = () => {
     //@ts-ignore
     abi: connect?.lockie?.abi,
     functionName: "deposit",
-    args: [ethers?.parseUnits(debouncedAmount || "0", 6), debouncedDuration],
+    args: [ethers?.parseUnits(debouncedAmount || "0", 18), rate],
   });
 
   const {
@@ -73,19 +67,13 @@ const SaveBox = () => {
   const { isLoading: isWaitingSaveTx } = useWaitForTransaction({
     hash: saveData?.hash,
     onSuccess(tx) {
-      //enable save button
       setAmount("");
-      setDuration("");
       setIsApproved(false);
-      //reloadIsActive();
-      console.log("Successful!!!");
     },
   });
 
-  tx && console.log(tx);
-
   return (
-    <aside className="p-0 lg:w-[30%] lg:p-4 lg:pt-0">
+    <aside className="p-0 lg:pt-0">
       <div className="">
         <div className="flex flex-col  py-4">
           <div className="mb-1">
@@ -93,8 +81,8 @@ const SaveBox = () => {
               htmlFor=""
               className="text-base font-medium text-gray-900 flex items-center justify-between"
             >
-              <span> Amount</span>
-              <APR />
+              <span> Amount </span>
+              <APR setRate={setRate} />
             </label>
             <div className="mt-2">
               <input

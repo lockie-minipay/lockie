@@ -45,3 +45,7 @@
     transform: rotate(360deg);
   }
 }
+
+.line {
+  background: linear-gradient(to right, transparent, black 50%, transparent);
+}

@@ -33,23 +33,34 @@ const SavingsGraph = () => {
     address: connect?.lockie?.address,
     //@ts-ignore
     abi: connect?.lockie?.abi,
-    functionName: "getHistory",
+    functionName: "getSavings",
     args: [address],
     watch: true,
   });
 
-  const [amount, duration] = splitData(history);
+  const [amounts, dates, rates] = splitData(history);
 
   const chartData = {
-    labels: duration.map((d) => d),
+    labels: dates.map((d) => d),
     datasets: [
       {
         label: "Amount",
-        data: amount.map((d) => d),
+        data: amounts.map((d) => d),
         fill: false,
         borderColor: "rgb(0, 0, 0)",
         tension: 0.1,
         backgroundColor: "rgb(21 128 61 / 0.9)",
+        width: 5,
+        borderWidth: 1,
+        borderRadius: 15,
+      },
+      {
+        label: "Rates",
+        data: rates.map((d) => d),
+        fill: false,
+        borderColor: "rgb(0, 0, 0)",
+        tension: 1,
+        backgroundColor: "rgb(233 58 61 / 0.6)",
         width: 5,
         borderWidth: 1,
         borderRadius: 15,
