@@ -43,7 +43,7 @@ const appInfo = {
 
 const wagmiConfig = createConfig({
   connectors,
-  autoConnect: true,
+  autoConnect: false,
   publicClient,
 });
 

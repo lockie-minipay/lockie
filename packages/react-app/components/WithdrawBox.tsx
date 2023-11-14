@@ -40,6 +40,7 @@ const WithdrawBox = () => {
     onSuccess() {
       //@ts-ignore
       setIsWithdrawn(true);
+      setAmount("");
     },
   });
 

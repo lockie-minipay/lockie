@@ -17,7 +17,7 @@ const RewardCard = () => {
   });
 
   return (
-    <div className=" bg-gray/5 rounded-lg p-8 w-full text-right">
+    <div className=" bg-gray/5 rounded-lg p-8 w-full text-right shadow-md">
       <div className="text-right">
         <p className="text-xl font-semibold flex flex-col ">
           <span>
