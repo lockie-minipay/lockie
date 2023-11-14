@@ -69,13 +69,15 @@ const SavingsGraph = () => {
   };
 
   return (
-    <div className="mt-9">
+    <div className="mt-9 hidden lg:block">
       <h3 className="font-semibold mb-1">Savings Trend</h3>
 
       {
         //@ts-ignore
         history?.length > 0 ? (
-          <Line data={chartData} />
+          <div className="w-full">
+            <Line data={chartData} />
+          </div>
         ) : (
           <div className="text-left">No record found</div>
         )

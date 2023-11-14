@@ -1,4 +1,3 @@
-import useGetBalance from "../hooks/useGetBalance";
 import { useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 import Loader from "./icons/Loader";
@@ -88,7 +87,7 @@ const SaveBox = () => {
               <input
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                disabled={isApproved || isApproving || isWaitingTx}
+                // disabled={isApproved || isApproving || isWaitingTx}
                 className="flex w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 type="text"
                 placeholder="cUSD"

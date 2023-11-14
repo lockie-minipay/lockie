@@ -28,7 +28,7 @@ const RewardCard = () => {
                 ethers?.formatUnits(mcusdBal || "0", 18)
               ).toFixed(2)
             }{" "}
-            USDC
+            cUSD
           </span>
           <span className="text-gray text-xs">
             {
@@ -38,7 +38,7 @@ const RewardCard = () => {
                 ethers?.formatUnits(mcusdBal || "0", 6)
               ).toFixed(2)
             }{" "}
-            USDC
+            cUSD
           </span>
           <small className="text-xs text-gray/40">
             ~{" "}

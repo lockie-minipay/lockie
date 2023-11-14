@@ -4,6 +4,7 @@ import RewardCard from "../components/RewardCard";
 import SaveBox from "../components/SaveBox";
 import SavingsCard from "../components/SavingsCard";
 import { useState } from "react";
+import WithdrawBox from "../components/WithdrawBox";
 
 const Dashboard = () => {
   const { address } = useAccount();
@@ -44,7 +45,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {selected === "save" ? <SaveBox /> : "Withdraw"}
+        {selected === "save" ? <SaveBox /> : <WithdrawBox />}
       </div>
 
       <ActivityBox />
