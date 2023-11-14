@@ -1,32 +1,15 @@
 import { ethers } from "ethers";
 import useGetBalance from "../hooks/useGetBalance";
-import { useCountdown } from "../hooks/useCountdown";
 import { useState } from "react";
 import { useContractRead, useAccount } from "wagmi";
 import connect from "../constants/connect";
-import Loader from "./icons/Loader";
-import Lock from "./icons/Lock";
 import Balance from "./icons/Balance";
 import Earnings from "./icons/Earnings";
+import CurrentDeposit from "./CurrentDeposit";
 
 const SavingsCard = () => {
   const balance = useGetBalance();
-  const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
-
-  const {
-    data: ethBal,
-    isLoading,
-    error,
-  } = useContractRead({
-    //@ts-ignore
-    address: connect?.lockie?.address,
-    //@ts-ignore
-    abi: connect?.lockie?.abi,
-    functionName: "getSavingsBal",
-    watch: true,
-    args: [address],
-  });
 
   const { data: mcusdBal } = useContractRead({
     //@ts-ignore
@@ -42,32 +25,7 @@ const SavingsCard = () => {
     <div className="relative bg-gray/5 rounded-lg py-8 px-3 lg:px-8 w-full overflow-hidden shadow-md">
       <div className="flex flex-col gap-y-5">
         <div className="flex items-center justify-between">
-          <div className="text-left">
-            <p className="text-xl font-semibold flex flex-col ">
-              <span>
-                {
-                  //@ts-ignore
-                  ethers.formatEther(ethBal || 0)
-                }{" "}
-                cUSD
-              </span>
-              <small className="text-xs text-gray/40">
-                ~{" "}
-                {
-                  //@ts-ignore
-                  parseFloat(
-                    //@ts-ignore
-                    ethers?.formatUnits(ethBal || "0", 18)
-                  ).toFixed(2) * 1000
-                }{" "}
-                NGN
-              </small>
-            </p>
-            <span className="flex items-center justify-start mt-2">
-              {" "}
-              <Lock /> Savings
-            </span>
-          </div>
+          <CurrentDeposit />
 
           <div className="text-right">
             <p className="text-xl font-semibold flex flex-col ">
