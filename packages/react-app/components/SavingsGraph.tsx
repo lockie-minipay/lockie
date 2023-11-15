@@ -13,6 +13,7 @@ import {
 import { Line } from "react-chartjs-2";
 import connect from "../constants/connect";
 import splitData from "../helpers/splitData";
+import formatDate from "../helpers/formatDate";
 
 ChartJs.register(
   LineElement,
@@ -41,7 +42,7 @@ const SavingsGraph = () => {
   const [amounts, dates, rates] = splitData(history);
 
   const chartData = {
-    labels: dates.map((d) => d),
+    labels: dates.map((d) => formatDate(d)),
     datasets: [
       {
         label: "Amount",
@@ -59,7 +60,7 @@ const SavingsGraph = () => {
         data: rates.map((d) => d),
         fill: false,
         borderColor: "rgb(0, 0, 0)",
-        tension: 1,
+        tension: 0.4,
         backgroundColor: "rgb(233 58 61 / 0.6)",
         width: 5,
         borderWidth: 1,

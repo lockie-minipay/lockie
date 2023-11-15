@@ -1,5 +1,4 @@
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
-import celoGroups from "@celo/rainbowkit-celo/lists";
 import { goerli } from "wagmi/chains";
 import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -10,6 +9,9 @@ import { publicProvider } from "wagmi/providers/public";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string;
 
@@ -57,18 +59,20 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       {isLoaded && (
-        <WagmiConfig config={wagmiConfig}>
-          <RainbowKitProvider
-            chains={chains}
-            appInfo={appInfo}
-            coolMode={true}
-            modalSize="compact"
-          >
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </RainbowKitProvider>
-        </WagmiConfig>
+        <QueryClientProvider client={queryClient}>
+          <WagmiConfig config={wagmiConfig}>
+            <RainbowKitProvider
+              chains={chains}
+              appInfo={appInfo}
+              coolMode={true}
+              modalSize="compact"
+            >
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </RainbowKitProvider>
+          </WagmiConfig>
+        </QueryClientProvider>
       )}
     </>
   );

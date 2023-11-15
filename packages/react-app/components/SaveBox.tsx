@@ -10,6 +10,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import APR from "./APR";
+import { useQueryClient } from "@tanstack/react-query";
 
 const SaveBox = () => {
   const [amount, setAmount] = useState("");
@@ -17,6 +18,8 @@ const SaveBox = () => {
   const [rate, setRate] = useState(0);
 
   const debouncedAmount = useDebounce<string>(amount, 500);
+
+  const queryClient = useQueryClient();
 
   const { config } = usePrepareContractWrite({
     //@ts-ignore
@@ -68,6 +71,7 @@ const SaveBox = () => {
     onSuccess(tx) {
       setAmount("");
       setIsApproved(false);
+      queryClient.invalidateQueries({ queryKey: ["balance"] });
     },
   });
 

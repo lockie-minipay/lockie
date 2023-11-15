@@ -3,32 +3,28 @@ import Lock from "./icons/Lock";
 import { ethers } from "ethers";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const CurrentDeposit = () => {
-  const [bal, setBal] = useState();
   const { address } = useAccount();
 
   const getBal = async () => {
     const { data } = await axios.post("/api/get-balance", {
       address,
     });
-    setBal(data?.currentBalance);
-    console.log(data?.currentBalance);
-    console.log(data);
+    return data?.currentBalance;
   };
 
-  useEffect(() => {
-    if (address !== undefined) {
-      getBal()
-        .then((d) => console.log(d))
-        .catch((e) => console.log(e));
-    }
-  }, [address]);
+  const { data: bal, isLoading } = useQuery({
+    queryKey: ["balance", address],
+    queryFn: getBal,
+    //refetchInterval: 5000,
+  });
 
   return (
     <div className="text-left">
       <p className="text-xl font-semibold flex flex-col ">
-        <span>
+        <span className={`${isLoading && "animate animate-pulse"}`}>
           {
             //@ts-ignore
             parseFloat(

@@ -9,12 +9,15 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 
 const WithdrawBox = () => {
   const [amount, setAmount] = useState("");
   const [isWithdrawn, setIsWithdrawn] = useState(0);
   const { address } = useAccount();
   const debouncedAmount = useDebounce<string>(amount, 500);
+
+  const queryClient = useQueryClient();
 
   const { config } = usePrepareContractWrite({
     //@ts-ignore
@@ -41,6 +44,7 @@ const WithdrawBox = () => {
       //@ts-ignore
       setIsWithdrawn(true);
       setAmount("");
+      queryClient.invalidateQueries({ queryKey: ["balance"] });
     },
   });
 

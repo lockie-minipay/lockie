@@ -27,8 +27,7 @@ const Hero = () => {
             className="text-lg font-medium leading-[1.75em] text-center 
           md:w-[70%] md:mx-auto lg:w-[60%] lg:text-2xl"
           >
-            Hedge against impulse spending by locking your cUSD on the security
-            and transparency of the blockchain.
+            Earn interest on your cUSD by saving on the blockchain.
           </p>
 
           <div className="flex items-center justify-center">
