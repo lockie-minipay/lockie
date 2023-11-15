@@ -1,7 +1,7 @@
 const connect = {
   //lockie contract
   lockie: {
-    address: "0x592867582B71B5EFBeC0C2b1b928071858845f6E",
+    address: "0x97912976B292131c35c96041fB282c098D23F45B",
     abi: [
       {
         anonymous: false,
@@ -393,7 +393,7 @@ const connect = {
 
   //cUSD
   cusd: {
-    address: "0x8d9EAc6f25470EFfD68f0AD22993CB2813c0c9B9",
+    address: "0x765DE816845861e75A25fCA122bb6898B8B1282a",
     abi: [
       {
         inputs: [
@@ -560,9 +560,9 @@ const connect = {
     ],
   },
 
-  //mToken address
+  //mcUSD address
   mToken: {
-    address: "0x71d4C18Ce2bd9889E17099B1552D0b92FAe15731",
+    address: "0x918146359264C492BD6934071c6Bd31C854EDBc3",
     abi: [
       {
         inputs: [
@@ -899,7 +899,7 @@ const connect = {
 
   //lending pool
   moola: {
-    address: "0x4bd5643ac6f66a5237E18bfA7d47cF22f1c9F210",
+    address: "0x970b12522CA9b4054807a2c5B736149a5BE6f670",
     abi: [
       {
         anonymous: false,

@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { BigNumber } from "@ethersproject/bignumber";
 
 const provider = new ethers.JsonRpcProvider(
-  `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_ETH_GOERLI_KEY}`
+  `https://celo-mainnet.infura.io/v3/${process.env.INFURA_KEY}`
 );
 
 const moolaContract = new ethers.Contract(
@@ -18,6 +18,8 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   const { address } = req.body;
+
+  console.log(address);
 
   if (req.method === "POST") {
     try {
@@ -57,6 +59,8 @@ export default async function handler(
 
       //subtract total deposit from total withdrawals
       let currentBalance = totalDeposit.sub(totalWithdrawals);
+
+      console.log(totalDeposit);
 
       res.status(200).json({ currentBalance });
     } catch (err) {

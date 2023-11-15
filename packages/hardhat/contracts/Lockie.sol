@@ -85,22 +85,22 @@ contract Lockie is Ownable {
         return balances[_user];
     }
 
-    function withdraw (uint256 _amount) external{
-        uint interestBal = IERC20(mcusdAddress).balanceOf(msg.sender);
+    // function withdraw (uint256 _amount) external{
+    //     uint interestBal = IERC20(mcusdAddress).balanceOf(msg.sender);
 
-        require(_amount <= interestBal, "Insufficient balance");
+    //     require(_amount <= interestBal, "Insufficient balance");
 
-        //withdraw saver's earnings
-        ILendingPool(moola).withdraw(
-            cusdAddress,
-            _amount,
-            msg.sender
-        );
+    //     //withdraw saver's earnings
+    //     ILendingPool(moola).withdraw(
+    //         cusdAddress,
+    //         _amount,
+    //         msg.sender
+    //     );
 
-        balances[msg.sender] -= _amount;
+    //     balances[msg.sender] -= _amount;
 
-        emit Withdrawn(msg.sender, _amount, block.timestamp);
-    }
+    //     emit Withdrawn(msg.sender, _amount, block.timestamp);
+    // }
 
     function getSavings(address _owner)
         external
@@ -114,5 +114,4 @@ contract Lockie is Ownable {
     function withdrawCharges () external onlyOwner {
         IERC20(cusdAddress).transfer(owner(), IERC20(cusdAddress).balanceOf(address(this)));
     }
-
 }

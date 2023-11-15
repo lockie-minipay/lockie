@@ -42,6 +42,7 @@ const SavingsGraph = () => {
   const [amounts, dates, rates] = splitData(history);
 
   const chartData = {
+    //@ts-ignore
     labels: dates.map((d) => formatDate(d)),
     datasets: [
       {
