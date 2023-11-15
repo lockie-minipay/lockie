@@ -2,17 +2,18 @@ import axios from "axios";
 import Lock from "./icons/Lock";
 import { ethers } from "ethers";
 import { useAccount } from "wagmi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CurrentDeposit = () => {
-  const ethBal = "100000000000000000";
+  const [bal, setBal] = useState();
   const { address } = useAccount();
 
   const getBal = async () => {
     const { data } = await axios.post("/api/get-balance", {
       address,
     });
-
+    setBal(data?.currentBalance);
+    console.log(data?.currentBalance);
     console.log(data);
   };
 
@@ -30,7 +31,10 @@ const CurrentDeposit = () => {
         <span>
           {
             //@ts-ignore
-            ethers.formatEther(ethBal || 0)
+            parseFloat(
+              //@ts-ignore
+              ethers?.formatUnits(bal?.hex || "0", 18)
+            ).toFixed(2)
           }{" "}
           cUSD
         </span>
@@ -40,7 +44,7 @@ const CurrentDeposit = () => {
             //@ts-ignore
             parseFloat(
               //@ts-ignore
-              ethers?.formatUnits(ethBal || "0", 18)
+              ethers?.formatUnits(bal?.hex || "0", 18)
             ).toFixed(2) * 1000
           }{" "}
           NGN
