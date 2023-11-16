@@ -18,10 +18,12 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   const { address } = req.body;
-
-  console.log(address);
-
+  //console.log(address);
   if (req.method === "POST") {
+    if (address == undefined) {
+      res.status(500).json({ msg: "invalid address" });
+      return;
+    }
     try {
       const depositFilter = moolaContract.filters.Deposit(
         connect?.cusd?.address,
@@ -59,8 +61,6 @@ export default async function handler(
 
       //subtract total deposit from total withdrawals
       let currentBalance = totalDeposit.sub(totalWithdrawals);
-
-      console.log(totalDeposit);
 
       res.status(200).json({ currentBalance });
     } catch (err) {

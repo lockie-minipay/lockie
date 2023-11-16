@@ -1,4 +1,4 @@
-import { useAccount, useContractRead } from "wagmi";
+import { useContractRead } from "wagmi";
 import connect from "../constants/connect";
 import { Dispatch, SetStateAction, useEffect } from "react";
 

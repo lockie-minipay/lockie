@@ -18,6 +18,7 @@ const CurrentDeposit = () => {
   const { data: bal, isLoading } = useQuery({
     queryKey: ["balance", address],
     queryFn: getBal,
+    enabled: !!address,
     //refetchInterval: 5000,
   });
 

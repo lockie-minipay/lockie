@@ -10,43 +10,38 @@ import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import celoGroups from "@celo/rainbowkit-celo/lists";
 
 const queryClient = new QueryClient();
 
 const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string;
 
 const { chains, publicClient } = configureChains(
-  [Celo, Alfajores, goerli],
+  [Celo],
   [
-    // jsonRpcProvider({
-    //   rpc: (chain) => ({
-    //     http: `https://celo-rpc.satoshi.opera-api.com/`,
-    //   }),
-    // }),
-    publicProvider(),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: `https://celo-mainnet.infura.io/v3/a5ee4de0e74f482abfc6971a09cd41c8`,
+      }),
+    }),
+    //publicProvider(),
   ]
 );
-
-const { connectors } = getDefaultWallets({
-  chains,
-  projectId,
-  appName: "Lockie - One-click access to defi",
-});
 
 const appInfo = {
   appName: "Lockie - One-click access to defi",
 };
 
-// const wagmiConfig = celoGroups({
-//   connectors,
-//   publicClient: publicClient,
-//   autoConnect: false,
-// });
+const connectors = celoGroups({
+  chains,
+  projectId,
+  appName: "Lockie - One-click access to defi",
+});
 
 const wagmiConfig = createConfig({
   connectors,
+  publicClient: publicClient,
   autoConnect: true,
-  publicClient,
 });
 
 function App({ Component, pageProps }: AppProps) {
