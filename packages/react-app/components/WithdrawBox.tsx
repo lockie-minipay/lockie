@@ -10,6 +10,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 const WithdrawBox = () => {
   const [amount, setAmount] = useState("");
@@ -45,6 +46,7 @@ const WithdrawBox = () => {
       setIsWithdrawn(true);
       setAmount("");
       queryClient.invalidateQueries({ queryKey: ["balance"] });
+      toast.success("Withdrawal successful!");
     },
   });
 

@@ -11,6 +11,8 @@ import {
 } from "wagmi";
 import APR from "./APR";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToaster } from "react-hot-toast/headless";
+import toast from "react-hot-toast";
 
 const SaveBox = () => {
   const [amount, setAmount] = useState("");
@@ -72,6 +74,7 @@ const SaveBox = () => {
       setAmount("");
       setIsApproved(false);
       queryClient.invalidateQueries({ queryKey: ["balance"] });
+      toast.success("Savings successful!");
     },
   });
 
@@ -99,7 +102,7 @@ const SaveBox = () => {
             </div>
           </div>
 
-          <div className="bg-yellow/25 text-black/70 p-1 leading-none text-center rounded-lg text-sm flex items-center gap-x-1">
+          <div className="bg-yellow/25 text-black/70 p-1 leading-none rounded-lg text-sm flex items-center gap-x-1">
             <Info /> <p>You will be charged 1% of your amount </p>
           </div>
 

@@ -1,11 +1,9 @@
-import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
-import { goerli } from "wagmi/chains";
-import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
+import { Celo } from "@celo/rainbowkit-celo/chains";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { publicProvider } from "wagmi/providers/public";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { useEffect, useState } from "react";
@@ -41,7 +39,7 @@ const connectors = celoGroups({
 const wagmiConfig = createConfig({
   connectors,
   publicClient: publicClient,
-  autoConnect: true,
+  autoConnect: false,
 });
 
 function App({ Component, pageProps }: AppProps) {

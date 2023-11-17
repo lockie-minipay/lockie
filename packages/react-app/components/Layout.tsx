@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { useConnect } from "wagmi";
-
+import toast, { Toaster } from "react-hot-toast";
 interface Props {
   children: ReactNode;
 }
@@ -16,10 +16,11 @@ const Layout: FC<Props> = ({ children }) => {
     if (window.ethereum && window.ethereum.isMiniPay) {
       connect();
     }
-  }, [connect]);
+  }, []);
 
   return (
     <>
+      <Toaster />
       <div className=" flex flex-col min-h-screen">
         <Header />
         <div className="m">{children}</div>
