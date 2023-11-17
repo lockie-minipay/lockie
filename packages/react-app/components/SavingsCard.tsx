@@ -52,7 +52,7 @@ const SavingsCard = () => {
               </small>
             </p>
             <span className="flex items-center justify-end mt-2">
-              <Balance /> Bal
+              <Balance /> Balance
             </span>
           </div>
         </div>
@@ -64,7 +64,7 @@ const SavingsCard = () => {
             <Earnings /> Earnings
           </span>
           <p className="text-xl font-semibold flex flex-col ">
-            <span className="text-gray text-xs">
+            <span className="text-gray/30 text-xs">
               {
                 //@ts-ignore
                 parseFloat(
