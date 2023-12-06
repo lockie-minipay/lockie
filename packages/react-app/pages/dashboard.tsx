@@ -1,14 +1,18 @@
 import { useAccount } from "wagmi";
 import ActivityBox from "../components/ActivityBox";
 import RewardCard from "../components/RewardCard";
-import SaveBox from "../components/SaveBox";
-import SavingsCard from "../components/SavingsCard";
+import SaveBox from "../components/EarnBox";
+import SavingsCard from "../components/EarningsCard";
 import { useState } from "react";
 import WithdrawBox from "../components/WithdrawBox";
+import LockBox from "../components/LockBox";
+import EarnBox from "../components/EarnBox";
+import LockCard from "../components/LockCard";
+import EarningsCard from "../components/EarningsCard";
 
 const Dashboard = () => {
   const { address } = useAccount();
-  const [selected, setSelected] = useState("save");
+  const [selected, setSelected] = useState("lock");
 
   return (
     <section className="p-4 lg:p-6 lg:px-16 2xl:px-24 gap-x-9 flex flex-col lg:flex-row justify-between mx-auto">
@@ -16,39 +20,37 @@ const Dashboard = () => {
         Hi {address?.substring(0, 8)},
       </h2> */}
 
-      <div className="flex lg:hidden gap-x-8 items-cente">
-        <SavingsCard />
-      </div>
-
-      <div className="mt-5 lg:mt-0 lg:w-[25%] lg:px-4">
+      <div className="mt-1 mb-3 lg:mt-0 lg:w-[25%] lg:px-4">
         <div className="flex items-center justify-between text-center mb-2">
           <div
-            onClick={() => setSelected("save")}
+            onClick={() => setSelected("lock")}
             className={`${
-              selected === "save"
+              selected === "lock"
                 ? " border-b-yellow font-medium"
                 : "text-gray/40 border-transparent"
             } w-full p-2  cursor-pointer border-b-2`}
           >
-            Save
+            Lock
           </div>
 
           <div
-            onClick={() => setSelected("withdraw")}
+            onClick={() => setSelected("earn")}
             className={`${
-              selected === "withdraw"
+              selected === "earn"
                 ? " border-b-yellow font-medium"
                 : "text-gray/40 border-transparent"
             } w-full p-2 cursor-pointer border-b-2 hover:border-b-yellow/70`}
           >
-            Withdraw
+            Earn
           </div>
         </div>
 
-        {selected === "save" ? <SaveBox /> : <WithdrawBox />}
-      </div>
+        <div className="flex lg:hidden gap-x-8 items-cente">
+          {selected === "lock" ? <LockCard /> : <EarningsCard />}
+        </div>
 
-      <ActivityBox />
+        {selected === "lock" ? <LockBox /> : <EarnBox />}
+      </div>
     </section>
   );
 };

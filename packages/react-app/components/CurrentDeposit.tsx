@@ -49,7 +49,7 @@ const CurrentDeposit = () => {
       </p>
       <span className="flex items-center justify-start mt-2">
         {" "}
-        <Lock /> Savings
+        <Lock /> Locked
       </span>
     </div>
   );

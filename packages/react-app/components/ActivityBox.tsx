@@ -1,4 +1,4 @@
-import SavingsCard from "./SavingsCard";
+import SavingsCard from "./EarningsCard";
 
 import SavingsGraph from "./SavingsGraph";
 import RewardCard from "./RewardCard";

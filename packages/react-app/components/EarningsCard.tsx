@@ -7,7 +7,7 @@ import Balance from "./icons/Balance";
 import Earnings from "./icons/Earnings";
 import CurrentDeposit from "./CurrentDeposit";
 
-const SavingsCard = () => {
+const EarningsCard = () => {
   const balance = useGetBalance();
   const { address } = useAccount();
 
@@ -22,7 +22,7 @@ const SavingsCard = () => {
   });
 
   return (
-    <div className="relative bg-gray/5 rounded-lg py-8 px-3 lg:px-8 w-full overflow-hidden shadow-md">
+    <div className="relative mt-3 bg-gray/5 rounded-lg py-8 px-3 lg:px-8 w-full overflow-hidden shadow-md">
       <div className="flex flex-col gap-y-5">
         <div className="flex items-center justify-between">
           <CurrentDeposit />
@@ -102,4 +102,4 @@ const SavingsCard = () => {
     </div>
   );
 };
-export default SavingsCard;
+export default EarningsCard;
