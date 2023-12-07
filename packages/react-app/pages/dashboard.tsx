@@ -41,12 +41,22 @@ const Dashboard = () => {
                 : "text-gray/40 border-transparent"
             } w-full p-2 cursor-pointer border-b-2 hover:border-b-yellow/70`}
           >
-            Earn
+            Earn 🔥
           </div>
         </div>
 
-        <div className="flex lg:hidden gap-x-8 items-cente">
-          {selected === "lock" ? <LockCard /> : <EarningsCard />}
+        <div className="flex flex-col lg:hidden gap-x-8">
+          {selected === "lock" ? (
+            <div className="mt-2">
+              <h3>Lock your cUSD to avoid impulse spending</h3>
+              <LockCard />
+            </div>
+          ) : (
+            <div className="mt-2">
+              <h3>Earn interest on your savings</h3>
+              <EarningsCard />
+            </div>
+          )}
         </div>
 
         {selected === "lock" ? <LockBox /> : <EarnBox />}

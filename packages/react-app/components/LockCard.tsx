@@ -16,7 +16,6 @@ import Loader from "./icons/Loader";
 const LockCard = () => {
   const balance = useGetBalance();
   const record = useGetRecord();
-  console.log(parseInt(record?.expiresAt));
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -77,7 +76,7 @@ const LockCard = () => {
             <div className="flex gap-x-2 items-center justify-between mt-2">
               <button
                 onClick={() => handleBreak()}
-                className="bg-yellow text-black px-3.5 py-2.5 rounded-sm w-full inline-flex justify-center items-center"
+                className="bg-yellow text-red-400 px-3.5 py-2.5 rounded-sm w-full inline-flex justify-center items-center"
               >
                 {isBreaking ? (
                   <Loader alt />
