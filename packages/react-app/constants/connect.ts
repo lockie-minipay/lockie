@@ -1,8 +1,83 @@
 const connect = {
   //lockie contract
   lockie: {
-    address: "0x97912976B292131c35c96041fB282c098D23F45B",
+    address: "0xD023A894783Ef4f66B0163fE29e6FAD9EB137780",
     abi: [
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "saved",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "expiredAt",
+            type: "uint256",
+          },
+        ],
+        name: "LockBroken",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "expiresAt",
+            type: "uint256",
+          },
+        ],
+        name: "LockCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "updatedAt",
+            type: "uint256",
+          },
+        ],
+        name: "LockUpdated",
+        type: "event",
+      },
       {
         anonymous: false,
         inputs: [
@@ -99,6 +174,31 @@ const connect = {
       },
       {
         inputs: [],
+        name: "breakPiggy",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "_amount",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "_duration",
+            type: "uint256",
+          },
+        ],
+        name: "createPiggy",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
         name: "cusdAddress",
         outputs: [
           {
@@ -126,6 +226,37 @@ const connect = {
         name: "deposit",
         outputs: [],
         stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "_owner",
+            type: "address",
+          },
+        ],
+        name: "getHistory",
+        outputs: [
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "amount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "duration",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Lockie.Lock[]",
+            name: "",
+            type: "tuple[]",
+          },
+        ],
+        stateMutability: "view",
         type: "function",
       },
       {
@@ -218,6 +349,47 @@ const connect = {
             type: "address",
           },
         ],
+        name: "getRecord",
+        outputs: [
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "balance",
+                type: "uint256",
+              },
+              {
+                internalType: "enum Lockie.LockStatus",
+                name: "status",
+                type: "uint8",
+              },
+              {
+                internalType: "uint256",
+                name: "createdAt",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "expiresAt",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Lockie.LockAccount",
+            name: "",
+            type: "tuple",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "_owner",
+            type: "address",
+          },
+        ],
         name: "getSavings",
         outputs: [
           {
@@ -265,6 +437,25 @@ const connect = {
             internalType: "uint256",
             name: "bal",
             type: "uint256",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "_owner",
+            type: "address",
+          },
+        ],
+        name: "isActive",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
           },
         ],
         stateMutability: "view",
@@ -376,7 +567,7 @@ const connect = {
             type: "uint256",
           },
         ],
-        name: "withdraw",
+        name: "updateBalance",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
@@ -393,7 +584,7 @@ const connect = {
 
   //cUSD
   cusd: {
-    address: "0x765DE816845861e75A25fCA122bb6898B8B1282a",
+    address: "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
     abi: [
       {
         inputs: [

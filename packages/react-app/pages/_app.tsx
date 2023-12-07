@@ -1,9 +1,10 @@
-import { Celo } from "@celo/rainbowkit-celo/chains";
+import { Celo, Alfajores } from "@celo/rainbowkit-celo/chains";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { publicProvider } from "wagmi/providers/public";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { useEffect, useState } from "react";
@@ -15,14 +16,14 @@ const queryClient = new QueryClient();
 const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string;
 
 const { chains, publicClient } = configureChains(
-  [Celo],
+  [Alfajores],
   [
-    jsonRpcProvider({
-      rpc: (chain) => ({
-        http: `https://celo-mainnet.infura.io/v3/a5ee4de0e74f482abfc6971a09cd41c8`,
-      }),
-    }),
-    //publicProvider(),
+    // jsonRpcProvider({
+    //   rpc: (chain) => ({
+    //     http: `https://celo-mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+    //   }),
+    // }),
+    publicProvider(),
   ]
 );
 
@@ -39,7 +40,7 @@ const connectors = celoGroups({
 const wagmiConfig = createConfig({
   connectors,
   publicClient: publicClient,
-  autoConnect: false,
+  autoConnect: true,
 });
 
 function App({ Component, pageProps }: AppProps) {

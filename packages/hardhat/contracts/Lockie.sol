@@ -7,9 +7,9 @@ import "@openzeppelin/contracts@3.1.0/access/Ownable.sol";
 import "./ILendingPool.sol";
 
 contract Lockie is Ownable {
-    address public moola = 0x4bd5643ac6f66a5237E18bfA7d47cF22f1c9F210; //moola lending pool
-    address public cusdAddress = 0x8d9EAc6f25470EFfD68f0AD22993CB2813c0c9B9; //cUSD
-    address public mcusdAddress = 0x71d4C18Ce2bd9889E17099B1552D0b92FAe15731; //interest token
+    address public moola = 0x970b12522CA9b4054807a2c5B736149a5BE6f670; //moola lending pool
+    address public cusdAddress = 0x765DE816845861e75A25fCA122bb6898B8B1282a; //cUSD
+    address public mcusdAddress = 0x918146359264C492BD6934071c6Bd31C854EDBc3; //interest token
 
     struct Save {
         address owner;

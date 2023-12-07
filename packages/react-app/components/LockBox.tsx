@@ -24,13 +24,8 @@ type Props = {
 const LockBox = () => {
   const [amount, setAmount] = useState("");
   const [isApproved, setIsApproved] = useState(false);
-  const [rate, setRate] = useState(0);
-
   const [expiryDate, setExpiryDate] = useState();
-
   const debouncedAmount = useDebounce<string>(amount, 500);
-
-  const queryClient = useQueryClient();
 
   const ExpiryDatePicker = forwardRef(({ value, onClick }: Props, ref) => (
     <input
@@ -43,6 +38,8 @@ const LockBox = () => {
       placeholder="10/12/2024"
     />
   ));
+
+  console.log(expiryDate?.getTime() / 1000);
 
   const { config } = usePrepareContractWrite({
     //@ts-ignore
@@ -79,8 +76,12 @@ const LockBox = () => {
     address: connect?.lockie?.address,
     //@ts-ignore
     abi: connect?.lockie?.abi,
-    functionName: "deposit",
-    args: [ethers?.parseUnits(debouncedAmount || "0", 18), rate],
+    functionName: "createPiggy",
+    args: [
+      ethers?.parseUnits(debouncedAmount || "0", 18),
+      //@ts-ignore
+      expiryDate?.getTime() / 1000,
+    ],
   });
 
   const {
@@ -94,8 +95,7 @@ const LockBox = () => {
     onSuccess(tx) {
       setAmount("");
       setIsApproved(false);
-      queryClient.invalidateQueries({ queryKey: ["balance"] });
-      toast.success("Savings successful!");
+      toast.success("Amount locked successful!");
     },
   });
 
@@ -173,7 +173,7 @@ const LockBox = () => {
               ) : isWaitingSaveTx ? (
                 <Loader alt />
               ) : (
-                "Save"
+                "Lock"
               )}
             </button>
           </div>
