@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
-import useGetBalance from "../hooks/useGetBalance";
 import {
   useContractWrite,
   usePrepareContractWrite,

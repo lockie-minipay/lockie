@@ -23,6 +23,7 @@ const NewPiggy = () => {
   const [expiryDate, setExpiryDate] = useState();
   const debouncedAmount = useDebounce<string>(amount, 500);
 
+  // eslint-disable-next-line react/display-name
   const ExpiryDatePicker = forwardRef(({ value, onClick }: Props, ref) => (
     <input
       className="flex w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"

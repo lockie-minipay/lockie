@@ -3,7 +3,6 @@ import { useDebounce } from "../hooks/useDebounce";
 import Loader from "./icons/Loader";
 import connect from "../constants/connect";
 import { ethers } from "ethers";
-import Info from "./icons/Info";
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -11,7 +10,6 @@ import {
 } from "wagmi";
 import APR from "./APR";
 import { useQueryClient } from "@tanstack/react-query";
-import { useToaster } from "react-hot-toast/headless";
 import toast from "react-hot-toast";
 import { useContext } from "react";
 import { EarnContext } from "../contexts/EarnContext";
@@ -21,6 +19,7 @@ const EarnBox = () => {
   const [amount, setAmount] = useState("");
   const [isApproved, setIsApproved] = useState(false);
   const [rate, setRate] = useState(0);
+  //@ts-ignore
   const { isWithdraw } = useContext(EarnContext);
 
   const debouncedAmount = useDebounce<string>(amount, 500);

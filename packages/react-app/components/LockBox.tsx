@@ -2,7 +2,6 @@ import { useAccount, useContractRead } from "wagmi";
 import NewPiggy from "./NewPiggy";
 import connect from "../constants/connect";
 import UpdatePiggy from "./UpdatePiggy";
-import toast from "react-hot-toast";
 
 const LockBox = () => {
   const { address } = useAccount();

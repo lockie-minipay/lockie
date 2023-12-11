@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { useConnect } from "wagmi";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 interface Props {
   children: ReactNode;
 }

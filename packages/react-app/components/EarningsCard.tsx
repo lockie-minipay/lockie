@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import useGetBalance from "../hooks/useGetBalance";
-import { useState } from "react";
 import { useContractRead, useAccount } from "wagmi";
 import connect from "../constants/connect";
 import Balance from "./icons/Balance";
@@ -12,6 +11,7 @@ import { useContext } from "react";
 const EarningsCard = () => {
   const balance = useGetBalance();
   const { address } = useAccount();
+  //@ts-ignore
   const { isWithdraw, setIsWithdraw } = useContext(EarnContext);
 
   const { data: mcusdBal } = useContractRead({
@@ -23,8 +23,6 @@ const EarningsCard = () => {
     watch: true,
     args: [address],
   });
-
-  mcusdBal && console.log(ethers?.formatEther(mcusdBal));
 
   return (
     <div className="relative mt-3 bg-gray/5 rounded-lg py-8 px-3 lg:px-8 w-full overflow-hidden shadow-md">

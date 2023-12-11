@@ -1,12 +1,7 @@
 import Link from "next/link";
 import { useAccount, useNetwork } from "wagmi";
-import {
-  useConnectModal,
-  useAccountModal,
-  useChainModal,
-} from "@rainbow-me/rainbowkit";
+import { useConnectModal, useAccountModal } from "@rainbow-me/rainbowkit";
 import User from "./icons/User";
-import ChevronDown from "./icons/ChevronDown";
 import Logo from "./icons/Logo";
 
 export default function Header() {
