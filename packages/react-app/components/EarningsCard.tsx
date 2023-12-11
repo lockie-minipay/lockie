@@ -6,10 +6,13 @@ import connect from "../constants/connect";
 import Balance from "./icons/Balance";
 import Earnings from "./icons/Earnings";
 import CurrentDeposit from "./CurrentDeposit";
+import { EarnContext } from "../contexts/EarnContext";
+import { useContext } from "react";
 
 const EarningsCard = () => {
   const balance = useGetBalance();
   const { address } = useAccount();
+  const { isWithdraw, setIsWithdraw } = useContext(EarnContext);
 
   const { data: mcusdBal } = useContractRead({
     //@ts-ignore
@@ -64,18 +67,17 @@ const EarningsCard = () => {
             <Earnings /> Earnings
           </span>
           <p className="text-xl font-semibold flex flex-col ">
-            <span className="text-gray/30 text-xs">
+            <span>
               {
                 //@ts-ignore
                 parseFloat(
                   //@ts-ignore
-                  ethers?.formatUnits(mcusdBal || "0", 6)
+                  ethers?.formatUnits(mcusdBal || "0", 18)
                 ).toFixed(2)
               }{" "}
               cUSD
             </span>
-
-            <span>
+            <span className="text-gray/30 text-xs">
               {
                 //@ts-ignore
                 parseFloat(
@@ -97,6 +99,12 @@ const EarningsCard = () => {
               NGN
             </small>
           </p>
+          <div
+            className="flex justify-center text-green-700 p-2 underline "
+            onClick={() => setIsWithdraw(!isWithdraw)}
+          >
+            {isWithdraw ? "withdraw" : "Deposit"}
+          </div>
         </div>
       </div>
     </div>

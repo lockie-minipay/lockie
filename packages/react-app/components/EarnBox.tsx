@@ -13,11 +13,15 @@ import APR from "./APR";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToaster } from "react-hot-toast/headless";
 import toast from "react-hot-toast";
+import { useContext } from "react";
+import { EarnContext } from "../contexts/EarnContext";
+import WithdrawBox from "./WithdrawBox";
 
 const EarnBox = () => {
   const [amount, setAmount] = useState("");
   const [isApproved, setIsApproved] = useState(false);
   const [rate, setRate] = useState(0);
+  const { isWithdraw } = useContext(EarnContext);
 
   const debouncedAmount = useDebounce<string>(amount, 500);
 
@@ -81,71 +85,75 @@ const EarnBox = () => {
   return (
     <aside className="p-0 lg:pt-0">
       <div className="">
-        <div className="flex flex-col  py-4">
-          <div className="mb-1">
-            <label
-              htmlFor=""
-              className="text-base font-medium text-gray-900 flex items-center justify-between"
-            >
-              <span> Amount </span>
-              <APR setRate={setRate} />
-            </label>
-            <div className="mt-2">
-              <input
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                // disabled={isApproved || isApproving || isWaitingTx}
-                className="flex w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                type="text"
-                placeholder="cUSD"
-              ></input>
+        {isWithdraw ? (
+          <WithdrawBox />
+        ) : (
+          <div className="flex flex-col  py-4">
+            <div className="mb-1">
+              <label
+                htmlFor=""
+                className="text-base font-medium text-gray-900 flex items-center justify-between"
+              >
+                <span> Amount </span>
+                <APR setRate={setRate} />
+              </label>
+              <div className="mt-2">
+                <input
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  // disabled={isApproved || isApproving || isWaitingTx}
+                  className="flex w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                  type="text"
+                  placeholder="cUSD"
+                ></input>
+              </div>
             </div>
-          </div>
 
-          {/* <div className="bg-yellow/25 text-black/70 p-1 leading-none rounded-lg text-sm flex items-center gap-x-1">
+            {/* <div className="bg-yellow/25 text-black/70 p-1 leading-none rounded-lg text-sm flex items-center gap-x-1">
             <Info /> <p>You will be charged 1% of your amount </p>
           </div> */}
 
-          <div className="flex flex-col gap-y-5 mt-5">
-            <button
-              //@ts-ignore
-              onClick={() => approveSpend?.()}
-              disabled={isApproved}
-              type="button"
-              className={`${
-                !isApproved
-                  ? "bg-yellow hover:bg-yellow/90 text-black"
-                  : "bg-black/10 cursor-not-allowed text-white"
-              } inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 `}
-            >
-              {isApproving ? (
-                <Loader alt />
-              ) : isWaitingTx ? (
-                <Loader alt />
-              ) : (
-                "Approve"
-              )}
-            </button>
+            <div className="flex flex-col gap-y-5 mt-5">
+              <button
+                //@ts-ignore
+                onClick={() => approveSpend?.()}
+                disabled={isApproved}
+                type="button"
+                className={`${
+                  !isApproved
+                    ? "bg-yellow hover:bg-yellow/90 text-black"
+                    : "bg-black/10 cursor-not-allowed text-white"
+                } inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 `}
+              >
+                {isApproving ? (
+                  <Loader alt />
+                ) : isWaitingTx ? (
+                  <Loader alt />
+                ) : (
+                  "Approve"
+                )}
+              </button>
 
-            <button
-              onClick={() => save?.()}
-              type="button"
-              className={`${
-                isApproved
-                  ? "bg-yellow hover:bg-yellow/90 text-black"
-                  : "bg-black/10 cursor-not-allowed text-white"
-              } inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 `}
-            >
-              {isSaving ? (
-                <Loader alt />
-              ) : isWaitingSaveTx ? (
-                <Loader alt />
-              ) : (
-                "Save"
-              )}
-            </button>
+              <button
+                onClick={() => save?.()}
+                type="button"
+                className={`${
+                  isApproved
+                    ? "bg-yellow hover:bg-yellow/90 text-black"
+                    : "bg-black/10 cursor-not-allowed text-white"
+                } inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 `}
+              >
+                {isSaving ? (
+                  <Loader alt />
+                ) : isWaitingSaveTx ? (
+                  <Loader alt />
+                ) : (
+                  "Save"
+                )}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </aside>
   );
