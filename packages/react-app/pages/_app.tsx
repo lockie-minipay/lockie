@@ -1,4 +1,4 @@
-import { Celo, Alfajores } from "@celo/rainbowkit-celo/chains";
+import { Celo } from "@celo/rainbowkit-celo/chains";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
@@ -16,25 +16,25 @@ const queryClient = new QueryClient();
 const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string;
 
 const { chains, publicClient } = configureChains(
-  [Alfajores],
+  [Celo],
   [
-    // jsonRpcProvider({
-    //   rpc: (chain) => ({
-    //     http: `https://celo-mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
-    //   }),
-    // }),
-    publicProvider(),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: `https://celo-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`,
+      }),
+    }),
+    //publicProvider(),
   ]
 );
 
 const appInfo = {
-  appName: "Lockie - One-click access to defi",
+  appName: "Lockie - Accesible savings and yield on Minipay",
 };
 
 const connectors = celoGroups({
   chains,
   projectId,
-  appName: "Lockie - One-click access to defi",
+  appName: "Lockie - Accesible savings and yield on Minipay",
 });
 
 const wagmiConfig = createConfig({

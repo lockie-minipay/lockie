@@ -14,7 +14,7 @@ import { toast } from "react-hot-toast";
 
 const WithdrawBox = () => {
   const [amount, setAmount] = useState("");
-  const [isWithdrawn, setIsWithdrawn] = useState(0);
+  const [setIsWithdrawn] = useState(0);
   const { address } = useAccount();
   const debouncedAmount = useDebounce<string>(amount, 500);
 

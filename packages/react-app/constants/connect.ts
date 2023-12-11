@@ -1,7 +1,7 @@
 const connect = {
   //lockie contract
   lockie: {
-    address: "0xAa6C866779a658663729B6F32eD4D044E20ca263",
+    address: "0x7a457555f836281c0A4E4dffDcF82878e5Fa0d9b",
     abi: [
       {
         anonymous: false,
@@ -584,7 +584,7 @@ const connect = {
 
   //cUSD
   cusd: {
-    address: "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+    address: "0x765DE816845861e75A25fCA122bb6898B8B1282a",
     abi: [
       {
         inputs: [

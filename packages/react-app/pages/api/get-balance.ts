@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { BigNumber } from "@ethersproject/bignumber";
 
 const provider = new ethers.JsonRpcProvider(
-  `https://celo-mainnet.infura.io/v3/${process.env.INFURA_KEY}`
+  `https://celo-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`
 );
 
 const moolaContract = new ethers.Contract(

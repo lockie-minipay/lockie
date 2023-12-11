@@ -24,6 +24,8 @@ const EarningsCard = () => {
     args: [address],
   });
 
+  mcusdBal && console.log(ethers?.formatEther(mcusdBal));
+
   return (
     <div className="relative mt-3 bg-gray/5 rounded-lg py-8 px-3 lg:px-8 w-full overflow-hidden shadow-md">
       <div className="flex flex-col gap-y-5">
@@ -67,6 +69,17 @@ const EarningsCard = () => {
             <Earnings /> Earnings
           </span>
           <p className="text-xl font-semibold flex flex-col ">
+            <span className="text-gray/30 text-xs">
+              {
+                //@ts-ignore
+                parseFloat(
+                  //@ts-ignore
+                  ethers?.formatUnits(mcusdBal || "0", 6)
+                ).toFixed(2)
+              }{" "}
+              cUSD
+            </span>
+
             <span>
               {
                 //@ts-ignore
@@ -77,16 +90,7 @@ const EarningsCard = () => {
               }{" "}
               cUSD
             </span>
-            <span className="text-gray/30 text-xs">
-              {
-                //@ts-ignore
-                parseFloat(
-                  //@ts-ignore
-                  ethers?.formatUnits(mcusdBal || "0", 18)
-                ).toFixed(2)
-              }{" "}
-              cUSD
-            </span>
+
             <small className="text-xs text-gray/40">
               ~{" "}
               {
@@ -103,7 +107,7 @@ const EarningsCard = () => {
             className="flex justify-center text-green-700 p-2 underline "
             onClick={() => setIsWithdraw(!isWithdraw)}
           >
-            {isWithdraw ? "withdraw" : "Deposit"}
+            {isWithdraw ? "Deposit" : "Withdraw"}
           </div>
         </div>
       </div>
