@@ -89,7 +89,7 @@ const NewPiggy = () => {
     onSuccess(tx) {
       setAmount("");
       setIsApproved(false);
-      toast.success("Amount locked successful!");
+      toast.success("Amount locked successful! 🔐");
     },
   });
 

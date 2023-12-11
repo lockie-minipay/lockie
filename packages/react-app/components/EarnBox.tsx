@@ -102,11 +102,11 @@ const EarnBox = () => {
             </div>
           </div>
 
-          <div className="bg-yellow/25 text-black/70 p-1 leading-none rounded-lg text-sm flex items-center gap-x-1">
+          {/* <div className="bg-yellow/25 text-black/70 p-1 leading-none rounded-lg text-sm flex items-center gap-x-1">
             <Info /> <p>You will be charged 1% of your amount </p>
-          </div>
+          </div> */}
 
-          <div className="flex gap-x-5 mt-5">
+          <div className="flex flex-col gap-y-5 mt-5">
             <button
               //@ts-ignore
               onClick={() => approveSpend?.()}

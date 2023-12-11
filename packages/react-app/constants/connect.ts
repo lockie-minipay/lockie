@@ -1,7 +1,7 @@
 const connect = {
   //lockie contract
   lockie: {
-    address: "0xD023A894783Ef4f66B0163fE29e6FAD9EB137780",
+    address: "0xAa6C866779a658663729B6F32eD4D044E20ca263",
     abi: [
       {
         anonymous: false,

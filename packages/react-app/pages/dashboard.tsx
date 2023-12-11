@@ -16,10 +16,6 @@ const Dashboard = () => {
 
   return (
     <section className="p-4 lg:p-6 lg:px-16 2xl:px-24 gap-x-9 flex flex-col lg:flex-row justify-between mx-auto">
-      {/* <h2 className="font-medium mb-2 lg:hidden overflow-x-scroll">
-        Hi {address?.substring(0, 8)},
-      </h2> */}
-
       <div className="mt-1 mb-3 lg:mt-0 lg:w-[25%] lg:px-4">
         <div className="flex items-center justify-between text-center mb-2">
           <div
@@ -48,12 +44,12 @@ const Dashboard = () => {
         <div className="flex flex-col lg:hidden gap-x-8">
           {selected === "lock" ? (
             <div className="mt-2">
-              <h3>Lock your cUSD to avoid impulse spending</h3>
+              <h3>Lock your cUSD to avoid impulse spending.</h3>
               <LockCard />
             </div>
           ) : (
             <div className="mt-2">
-              <h3>Earn interest on your savings</h3>
+              <h3>Earn interest on your savings, withdraw anytime!</h3>
               <EarningsCard />
             </div>
           )}

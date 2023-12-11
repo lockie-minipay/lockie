@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useCountdown } from "../hooks/useCountdown";
 import connect from "../constants/connect";
 import Loader from "./icons/Loader";
+import toast from "react-hot-toast";
 
 const LockCard = () => {
   const balance = useGetBalance();
@@ -44,6 +45,7 @@ const LockCard = () => {
     onSuccess(tx) {
       //disable modal
       setIsOpen(false);
+      toast.success("Unlocked Successful! 🔓");
     },
   });
 
@@ -69,14 +71,16 @@ const LockCard = () => {
             </h3>
             <p className="">
               {isCountdownCompleted
-                ? "You are among top 5% of users who take their savings seriously! 👏"
+                ? "You are among our top 5% of users who take their savings seriously! 👏"
                 : "You will be charged 1% penalty if you break before duration"}
             </p>
 
             <div className="flex gap-x-2 items-center justify-between mt-2">
               <button
                 onClick={() => handleBreak()}
-                className="bg-yellow text-red-400 px-3.5 py-2.5 rounded-sm w-full inline-flex justify-center items-center"
+                className={`
+                ${isCountdownCompleted ? "text-green-700" : "text-red-400"}
+                bg-yellow px-3.5 py-2.5 rounded-sm w-full inline-flex justify-center items-center`}
               >
                 {isBreaking ? (
                   <Loader alt />
@@ -166,7 +170,7 @@ const LockCard = () => {
 
               <div className="font-mono text-xl text-center">
                 {isCountdownCompleted ? (
-                  <p>Savings goal achieved!</p>
+                  <p>Savings goal achieved! 🎉</p>
                 ) : (
                   <>
                     <p className="text-xs">Locked until</p>
@@ -180,10 +184,8 @@ const LockCard = () => {
               <button
                 onClick={() => setIsOpen(true)}
                 className={`${
-                  isCountdownCompleted
-                    ? "bg-green-700 hover:bg-green-700/90 active:bg-green-700"
-                    : "text-red-400 hover:bg-red-500"
-                }  text-red`}
+                  isCountdownCompleted ? "text-green-700" : "text-red-400 "
+                }`}
               >
                 Break Piggy
               </button>

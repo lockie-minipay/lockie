@@ -9,6 +9,7 @@ import {
 import connect from "../constants/connect";
 import { ethers } from "ethers";
 import Loader from "./icons/Loader";
+import toast from "react-hot-toast";
 
 const UpdatePiggy = () => {
   const [amount, setAmount] = useState("");
@@ -65,7 +66,7 @@ const UpdatePiggy = () => {
       //enable update button
       setAmount("");
       setIsApproved(false);
-      console.log("Successful!!!");
+      toast.success("Amount updated successful! 🔐");
     },
   });
 
